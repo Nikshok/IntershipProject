@@ -18,11 +18,11 @@ class VKController extends Controller
      * @param Request $request
      * @return mixed|\Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/info")
+     * @Route("/")
      */
-    public function infoAction(Request $request)
+    public function indexAction(Request $request)
     {
-        $json_string = '{"id":210700286,"first_name":"Lindsey","last_name":"Stirling","message":"StartGame"}';
+        $json_string = '{"id":87305277,"first_name":"Lindsey","last_name":"Stirling","message":"фываыфва"}';
 
         $request_user = json_decode($json_string, true);
 
@@ -34,6 +34,15 @@ class VKController extends Controller
         $user->setProviderId(User::PROVIDER_VK);
 
         $users = $this->getDoctrine()->getRepository(User::class)->findOneByImportIdAndProviderId($user);
+
+        $parser = $this->get('message_parser_service');
+
+        $eventArr = $parser->parseMessage($request_user['message']);
+
+        $event = $this->get($eventArr['']);
+
+        $sender = $this->get('sender_vk_service');
+        $sender->sendMessage($user, 'hello');
 
         if (isset($users)) {
 
@@ -54,21 +63,4 @@ class VKController extends Controller
 
     }
 
-    /**
-     * @Route("/sendMessage")
-     * @param Request $request
-     * @return Response
-     */
-    public function sendMessage(Request $request)
-    {
-        $sender = $this->get('sender_service');
-        $sender->sendMessage(87305277, 'hello');
-
-        $response = new Response();
-
-        $response->setStatusCode(Response::HTTP_OK);
-
-        return $response;
-
-    }
 }

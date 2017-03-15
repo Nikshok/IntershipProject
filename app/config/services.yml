@@ -7,6 +7,8 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
-    sender_service:
-        class: AppBundle\Services\MessageSenders\TestSender
+    sender_vk_service:
+        class: AppBundle\Services\MessageSenders\MessageSenderVK
         arguments: ['%peer_id%', '%access_token%', '%v%']
+    message_parser_service:
+        class: AppBundle\Services\MessageParser

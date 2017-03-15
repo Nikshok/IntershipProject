@@ -2,9 +2,10 @@
 
 namespace AppBundle\Services\MessageSenders;
 
+use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestSender
+class MessageSenderVK
 {
     private $peer_id;
     private $access_token;
@@ -17,10 +18,10 @@ class TestSender
         $this->v = $v;
     }
 
-    public function sendMessage($user_id, $message)
+    public function sendMessage(User $user, $message)
     {
         $parameters = [
-            'user_id' => $user_id,
+            'user_id' => $user->getImportId(),
             'random_id' => mt_rand(1, 99999),
             'peer_id' => $this->peer_id,
             'message' => $message,
@@ -28,7 +29,7 @@ class TestSender
             'v' => $this->v,
         ];
 
-        $url = 'https://api.vk.com/method/messages.send?' . http_build_query($parameters);
+        $url = 'https://api.vk.com/method/messages.send';
 
         $curl = curl_init('');
 
@@ -36,9 +37,10 @@ class TestSender
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_REFERER, 'http://google.com');
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0');
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($parameters));
 
-        $data = curl_exec($curl);
+        curl_exec($curl);
 
         curl_close($curl);
     }
