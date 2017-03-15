@@ -26,41 +26,36 @@ class VKController extends Controller
 
         $request_user = json_decode($json_string, true);
 
-        $user = new User();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneByImportIdAndProviderId($request_user['id'], User::PROVIDER_VK);
 
-        $user->setFirstName($request_user['first_name']);
-        $user->setLastName($request_user['last_name']);
-        $user->setImportId($request_user['id']);
-        $user->setProviderId(User::PROVIDER_VK);
+        if (!isset($user)) {
 
-        $users = $this->getDoctrine()->getRepository(User::class)->findOneByImportIdAndProviderId($user);
+            $user = new User();
 
-        $parser = $this->get('message_parser_service');
-
-        $eventArr = $parser->parseMessage($request_user['message']);
-
-        $event = $this->get($eventArr['']);
-
-        $sender = $this->get('sender_vk_service');
-        $sender->sendMessage($user, 'hello');
-
-        if (isset($users)) {
-
-            return $this->render('@App/default/base.html.twig', [
-                'user' => $user,
-            ]);
-
-        } else {
+            $user->setFirstName($request_user['first_name']);
+            $user->setLastName($request_user['last_name']);
+            $user->setImportId($request_user['id']);
+            $user->setProviderId(User::PROVIDER_VK);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            return $this->render('@App/default/base.html.twig', [
-                'user' => $user,
-            ]);
         }
 
+        $parser = $this->get('message_parser_service');
+
+        $eventArr = $parser->parseMessage($request_user['message']);    //return ['event_name', 'param']
+
+        //How to use game_event
+        //$gameEvent = $this->get($eventArr['event_name']);
+
+        //How to use sender_vk_service in GameListners, don't forget include sender_vk_service in GameListner
+        $sender = $this->get('sender_vk_service');
+        $sender->sendMessage($user, 'Smth message ($message)');
+
+        return new Response(Response::HTTP_OK);
     }
 
 }

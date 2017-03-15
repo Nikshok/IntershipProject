@@ -30,7 +30,7 @@ class MessageParser
                     }
                 }
 
-                return ['EventName' => $eventName, 'parameters' => $param];
+                return ['event_name' => $eventName, 'param' => $param];
             }
         }
 

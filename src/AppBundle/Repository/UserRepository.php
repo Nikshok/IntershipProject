@@ -12,10 +12,10 @@ use AppBundle\Entity\User;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findOneByImportIdAndProviderId(User $user)
+    public function findOneByImportIdAndProviderId($importId, $providerId)
     {
         return parent::findOneBy([
-            'importId' => $user->getImportId(), 'providerId' => $user->getProviderId()
+            'importId' => $importId, 'providerId' => $providerId
         ]);
     }
 }
