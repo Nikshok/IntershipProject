@@ -41,8 +41,5 @@ class TestSender
         $data = curl_exec($curl);
 
         curl_close($curl);
-
-        $request = new Request();
-
     }
 }

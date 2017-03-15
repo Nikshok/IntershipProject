@@ -10,4 +10,10 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findOneByImportIdAndProviderId(User $user)
+    {
+        return parent::findOneBy([
+            'importId' => $user->getImportId(), 'providerId' => $user->getProviderId()
+        ]);
+    }
 }

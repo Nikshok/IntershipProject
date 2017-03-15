@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Route("/vk/controller", name="homepage")
+ * @Route("/vk", name="homepage")
  */
-class DefaultController extends Controller
+class VKController extends Controller
 {
     /**
      * @param Request $request
@@ -22,7 +22,7 @@ class DefaultController extends Controller
      */
     public function infoAction(Request $request)
     {
-        $json_string = '{"id":210700286,"first_name":"Lindsey","last_name":"Stirling"}';
+        $json_string = '{"id":210700286,"first_name":"Lindsey","last_name":"Stirling","message":"StartGame"}';
 
         $request_user = json_decode($json_string, true);
 
@@ -33,9 +33,7 @@ class DefaultController extends Controller
         $user->setImportId($request_user['id']);
         $user->setProviderId(User::PROVIDER_VK);
 
-        $users = $this->getDoctrine()->getRepository(User::class)->findOneBy([
-            'importId' => $user->getImportId(), 'providerId' => $user->getProviderId()
-        ]);
+        $users = $this->getDoctrine()->getRepository(User::class)->findOneByImportIdAndProviderId($user);
 
         if (isset($users)) {
 
