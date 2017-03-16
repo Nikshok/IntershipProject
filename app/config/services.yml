@@ -9,7 +9,7 @@ services:
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
     sender_vk_service:
         class: AppBundle\Services\MessageSenders\MessageSenderVK
-        arguments: ['%peer_id%', '%access_token%', '%v%']
+        arguments: ['%access_token%', '%v%']
     message_parser_service:
         class: AppBundle\Services\MessageParser
     message_driver_service:

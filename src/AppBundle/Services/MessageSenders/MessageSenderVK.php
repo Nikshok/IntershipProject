@@ -7,13 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MessageSenderVK
 {
-    private $peer_id;
     private $access_token;
     private $v;
 
-    public function __construct($peer_id, $access_token, $v)
+    public function __construct($access_token, $v)
     {
-        $this->peer_id = $peer_id;
         $this->access_token = $access_token;
         $this->v = $v;
     }
@@ -23,7 +21,6 @@ class MessageSenderVK
         $parameters = [
             'user_id' => $user->getImportId(),
             'random_id' => mt_rand(1, 99999),
-            'peer_id' => $this->peer_id,
             'message' => $message,
             'access_token' => $this->access_token,
             'v' => $this->v,
