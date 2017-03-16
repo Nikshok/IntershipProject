@@ -15,3 +15,10 @@ services:
     message_driver_service:
         class: AppBundle\Services\MessageDriver
         arguments: ['@sender_vk_service']
+    find_game_service:
+        class: AppBundle\Services\Game\Event\GameSearchEvent
+        arguments: [ "@doctrine.orm.entity_manager", "@founded_game_service"]
+
+    founded_game_service:
+        class: AppBundle\Services\Game\Listeners\GameSearchListener
+        arguments: [ "@doctrine.orm.entity_manager", "@sender_vk_service"]

@@ -22,7 +22,7 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $json_string = '{"id":87305277,"first_name":"Lindsey","last_name":"Stirling","message":"фываыфва"}';
+        $json_string = '{"id":418599422,"first_name":"Lindsey","last_name":"Stirling","message":"фываыфва"}';
 
         $request_user = json_decode($json_string, true);
 
@@ -58,4 +58,18 @@ class VKController extends Controller
         return new Response(Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/findGame")
+     */
+    public function findGame()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $findUser = $em->getRepository(User::class)->find(1);
+        $findGame = $this->get('find_game_service')->searchGame($findUser);
+        $response = new Response();
+
+        $response->setStatusCode(Response::HTTP_OK);
+
+        return $response;
+    }
 }
