@@ -51,8 +51,8 @@ class VKController extends Controller
         //How to use game_event
         //$gameEvent = $this->get($eventArr['event_name']);
 
-        //How to use sender_vk_service in GameListners, don't forget include sender_vk_service in GameListner
-        $sender = $this->get('sender_vk_service');
+        //How to use message_driver in GameListners, don't forget include message_driver in GameListner
+        $sender = $this->get('message_driver_service');
         $sender->sendMessage($user, 'Smth message ($message)');
 
         return new Response(Response::HTTP_OK);
