@@ -5,22 +5,24 @@ namespace AppBundle\Services\Game\Event;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Services\Game\Listeners\GameSearchListener;
+use AppBundle\Services\Game\Listeners\GameFoundListener;
 
 class GameSearchEvent
 {
     protected $em;
     protected $searchEvent;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, GameSearchListener $searchEvent)
+    public function __construct(\Doctrine\ORM\EntityManager $em,  GameFoundListener $foundListener, GameSearchListener $searchListener)
     {
         $this->em = $em;
-        $this->searchEvent = $searchEvent;
+        $this->searchListener = $searchListener;
+        $this->foundListener = $foundListener;
     }
 
     public function searchGame(User $user)
     {
         $findGame = $this->em->getRepository(Game::class)->findBy([
-            'firstUserId' => $user->getImportId()
+            'firstUserId' => $user->getId()
         ]);
 
         if (isset($findGame)) {
@@ -34,15 +36,14 @@ class GameSearchEvent
 
             $findGame = $query->setMaxResults(1)->getOneOrNullResult();
             if ($findGame) {
-                $this->searchEvent->gameSearchListener($findGame->getFirstUserId(), 3);
-                $this->searchEvent->gameSearchListener($findGame->getSecondUserId(), 3);
+                $this->foundListener->gameFoundListener($findGame);
                 $this->em->flush();
             } else {
-                $findGame = new Game();
-                $findGame->setFirstUserId($user->getProviderId());
-                $findGame->setStatusId(1);
-                $this->searchEvent->gameSearchListener($findGame->getFirstUserId(), 1);
-                $this->em->persist($findGame);
+                $newGame = new Game();
+                $newGame->setFirstUserId($user->getProviderId());
+                $newGame->setStatusId(1);
+                $this->searchListener->gameSearchListener($newGame);
+                $this->em->persist($newGame);
                 $this->em->flush();
             }
         }

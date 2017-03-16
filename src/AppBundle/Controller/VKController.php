@@ -64,7 +64,9 @@ class VKController extends Controller
     public function findGame()
     {
         $em = $this->getDoctrine()->getManager();
-        $findUser = $em->getRepository(User::class)->find(1);
+        $findUser = $em->getRepository(User::class)->findOneBy([
+            'id' => 1
+        ]);
         $findGame = $this->get('find_game_service')->searchGame($findUser);
         $response = new Response();
 

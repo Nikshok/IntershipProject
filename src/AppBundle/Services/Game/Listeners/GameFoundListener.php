@@ -2,12 +2,12 @@
 
 namespace AppBundle\Services\Game\Listeners;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\Phrase;
 use AppBundle\Entity\User;
-use AppBundle\Entity\Game;
 use AppBundle\Services\MessageDriver;
 
-class GameSearchListener
+class GameFoundListener
 {
     protected $em;
     protected $messageSender;
@@ -21,14 +21,19 @@ class GameSearchListener
     /**
      * @param Game $game
      */
-    public function gameSearchListener(Game $game)
+    public function gameFoundListener(Game $game)
     {
         $phraseStatus = $this->em->getRepository(Phrase::class)->findOneBy([
-            'categoryId' => 1]);
+            'categoryId' => 3]);
         $firstUser = $this->em->getRepository(User::class)->findOneBy([
             'id' => $game->getFirstUserId()]);
+        $secondUser = $this->em->getRepository(User::class)->findOneBy([
+            'id' => $game->getSecondUserId()]);
         if (isset($firstUser)) {
             $this->messageSender->sendMessage($firstUser, $phraseStatus);
+        }
+        if (isset($secondUser)) {
+            $this->messageSender->sendMessage($secondUser, $phraseStatus);
         }
     }
 }
