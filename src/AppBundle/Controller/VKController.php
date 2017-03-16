@@ -53,7 +53,11 @@ class VKController extends Controller
 
         //How to use message_driver in GameListners, don't forget include message_driver in GameListner
         $sender = $this->get('message_driver_service');
-        $sender->sendMessage($user, 'Smth message ($message)');
+        $sender->addMessage($user, 'Smth message ($message)');
+        $sender->addMessage($user, 'Smth message ($message) 2');
+        $sender->addMessage($user, 'Smth message ($message) 3');
+
+        $sender->execute();
 
         return new Response(Response::HTTP_OK);
     }

@@ -14,4 +14,4 @@ services:
         class: AppBundle\Services\MessageParser
     message_driver_service:
         class: AppBundle\Services\MessageDriver
-        arguments: ['@sender_vk_service']
+        arguments: ['@sender_vk_service', '@doctrine.orm.entity_manager']
