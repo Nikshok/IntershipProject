@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Game\GameSearchEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,6 +61,19 @@ class VKController extends Controller
         $sender->execute();
 
         return new Response(Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/test")
+     */
+    public function testAction() {
+        $sender = $this->get('message_driver_service');
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->find(1);
+
+        $event = new GameSearchEvent($this->getDoctrine(), $sender, $user);
+
+        $sender->execute();
     }
 
 }
