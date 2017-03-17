@@ -8,22 +8,18 @@ use Symfony\Component\HttpFoundation\Request;
 class MessageSenderVK
 {
     private $access_token;
-    private $v;
 
-    public function __construct($access_token, $v)
+    public function __construct($access_token_vk)
     {
-        $this->access_token = $access_token;
-        $this->v = $v;
+        $this->access_token = $access_token_vk;
     }
 
     public function sendMessage(User $user, $message)
     {
         $parameters = [
             'user_id' => $user->getImportId(),
-            'random_id' => mt_rand(1, 99999),
             'message' => $message,
             'access_token' => $this->access_token,
-            'v' => $this->v,
         ];
 
         $url = 'https://api.vk.com/method/messages.send';

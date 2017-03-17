@@ -29,7 +29,7 @@ class VKController extends Controller
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['id'], User::PROVIDER_VK);
 
-        if (!isset($user)) {
+        if (!($user)) {
 
             $user = new User();
 
