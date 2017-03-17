@@ -10,9 +10,9 @@ class MessageSenderVK
 {
     private $access_token;
 
-    public function __construct($access_token)
+    public function __construct($access_token_vk)
     {
-        $this->access_token = $access_token;
+        $this->access_token = $access_token_vk;
     }
 
     public function sendMessage(User $user, $message)
