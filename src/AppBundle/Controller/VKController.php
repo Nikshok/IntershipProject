@@ -23,9 +23,13 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $json_string = '{"id":87305277,"first_name":"Lindsey","last_name":"Stirling","message":"поиск"}';
+      //  $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
 
-        $request_user = json_decode($json_string, true);
+        $request = json_decode($request->getContent(), true);
+        $request_user = $request['object'];
+
+       // var_dump($request);
+       // var_dump($request_user);
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['id'], User::PROVIDER_VK);
@@ -34,8 +38,8 @@ class VKController extends Controller
 
             $user = new User();
 
-            $user->setFirstName($request_user['first_name']);
-            $user->setLastName($request_user['last_name']);
+            $user->setFirstName('asdfasf');
+            $user->setLastName('dfcz');
             $user->setImportId($request_user['id']);
             $user->setProviderId(User::PROVIDER_VK);
 
@@ -47,17 +51,17 @@ class VKController extends Controller
 
         $parser = $this->get('message_parser_service');
 
-        $eventArr = $parser->parseMessage($request_user['message']);    //return ['event_name', 'param']
+        $eventArr = $parser->parseMessage($request_user['body']);    //return ['event_name', 'param']
 
         $sender = $this->get('message_driver_service');
 
         $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
 
-        new $eventClassName($this->getDoctrine(), $sender, $user);
+        new $eventClassName($this->getDoctrine(), $sender, $user, $eventArr['param']);
 
         $sender->execute();
 
-        return new Response(Response::HTTP_OK);
+        return new Response('OK');
     }
 
     /**
