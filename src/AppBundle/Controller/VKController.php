@@ -3,11 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Game\GameSearchEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 
 
 /**
@@ -23,7 +23,7 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $json_string = '{"id":87305277,"first_name":"Lindsey","last_name":"Stirling","message":"фываыфва"}';
+        $json_string = '{"id":87305277,"first_name":"Lindsey","last_name":"Stirling","message":"поиск"}';
 
         $request_user = json_decode($json_string, true);
 
@@ -49,14 +49,11 @@ class VKController extends Controller
 
         $eventArr = $parser->parseMessage($request_user['message']);    //return ['event_name', 'param']
 
-        //How to use game_event
-        //$gameEvent = $this->get($eventArr['event_name']);
-
-        //How to use message_driver in GameListners, don't forget include message_driver in GameListner
         $sender = $this->get('message_driver_service');
-        $sender->addMessage($user, 'Smth message ($message)');
-        $sender->addMessage($user, 'Smth message ($message) 2');
-        $sender->addMessage($user, 'Smth message ($message) 3');
+
+        $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
+
+        new $eventClassName($this->getDoctrine(), $sender, $user);
 
         $sender->execute();
 
