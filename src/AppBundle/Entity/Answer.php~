@@ -1,0 +1,45 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * Question
+ *
+ * @ORM\Table(name="answer")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AnswerRepository")
+ */
+class Answer
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="anser", type="string", length=255, nullable=false)
+     */
+    private $answer;
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="question", inversedBy="id")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", nullable=true)
+     */
+    private $questionId;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status_id", type="boolean", nullable=false)
+     */
+    private $isCorrect;
+
+
+    
+}
