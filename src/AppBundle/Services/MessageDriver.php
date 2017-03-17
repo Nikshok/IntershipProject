@@ -36,9 +36,8 @@ class MessageDriver
             $user = $this->em->getRepository(User::class)->findOneBy(['id' => $userId]);
             foreach ($this->senders as $provider => $sender) {
                 if ($user->getProviderId() == $provider) {
-                    foreach ($messages as $message) {
-                        $sender->sendMessage($user, $message);
-                    }
+                    $message = implode($messages, '<br>');
+                    $sender->sendMessage($user, $message);
                 }
             }
         }
