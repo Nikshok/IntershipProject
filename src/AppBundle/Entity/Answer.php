@@ -29,16 +29,18 @@ class Answer
     private $answer;
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="question", inversedBy="id")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Question")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
     private $questionId;
     /**
      * @var int
      *
-     * @ORM\Column(name="status_id", type="boolean", nullable=false)
+     * @ORM\Column(name="is_correct", type="boolean", nullable=true)
      */
     private $isCorrect;
+
+
 
 
     /**
@@ -102,11 +104,11 @@ class Answer
     /**
      * Set questionId
      *
-     * @param \AppBundle\Entity\question $questionId
+     * @param \AppBundle\Entity\Question $questionId
      *
      * @return Answer
      */
-    public function setQuestionId(\AppBundle\Entity\question $questionId = null)
+    public function setQuestionId(\AppBundle\Entity\Question $questionId = null)
     {
         $this->questionId = $questionId;
 
@@ -116,7 +118,7 @@ class Answer
     /**
      * Get questionId
      *
-     * @return \AppBundle\Entity\question
+     * @return \AppBundle\Entity\Question
      */
     public function getQuestionId()
     {
