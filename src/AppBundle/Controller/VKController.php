@@ -32,7 +32,7 @@ class VKController extends Controller
        // var_dump($request_user);
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->findOneByImportIdAndProviderId($request_user['id'], User::PROVIDER_VK);
+        $user = $userRepository->findOneByImportIdAndProviderId($request_user['user_id'], User::PROVIDER_VK);
 
         if (!($user)) {
 
@@ -40,7 +40,7 @@ class VKController extends Controller
 
             $user->setFirstName('asdfasf');
             $user->setLastName('dfcz');
-            $user->setImportId($request_user['id']);
+            $user->setImportId($request_user['user_id']);
             $user->setProviderId(User::PROVIDER_VK);
 
             $em = $this->getDoctrine()->getManager();
