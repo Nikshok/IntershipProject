@@ -42,4 +42,86 @@ class Answer
 
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set answer
+     *
+     * @param string $answer
+     *
+     * @return Answer
+     */
+    public function setAnswer($answer)
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Get answer
+     *
+     * @return string
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
+    }
+
+    /**
+     * Set isCorrect
+     *
+     * @param boolean $isCorrect
+     *
+     * @return Answer
+     */
+    public function setIsCorrect($isCorrect)
+    {
+        $this->isCorrect = $isCorrect;
+
+        return $this;
+    }
+
+    /**
+     * Get isCorrect
+     *
+     * @return boolean
+     */
+    public function getIsCorrect()
+    {
+        return $this->isCorrect;
+    }
+
+    /**
+     * Set questionId
+     *
+     * @param \AppBundle\Entity\Question $questionId
+     *
+     * @return Answer
+     */
+    public function setQuestionId(\AppBundle\Entity\Question $questionId = null)
+    {
+        $this->questionId = $questionId;
+
+        return $this;
+    }
+
+    /**
+     * Get questionId
+     *
+     * @return \AppBundle\Entity\Question
+     */
+    public function getQuestionId()
+    {
+        return $this->questionId;
+    }
 }

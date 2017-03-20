@@ -8,7 +8,7 @@ use AppBundle\Entity\User;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameSearchListener
+class GameCapitulateListener
 {
     private $doctrine;
     private $messageDriver;
@@ -20,14 +20,14 @@ class GameSearchListener
         $this->doctrine = $doctrine;
         $this->messageDriver = $messageDriver;
 
-
     }
 
-    public function fire(Game $game) {
-        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 1]);
+    public function capitulate(Game $game, User $winnerUser, User $loserUser) {
+
+        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 6]);
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUserId()]);
-        $this->messageDriver->addMessage($user, $phrase->getPhrase());
-    }
+        $this->messageDriver->addMessage($winnerUser, $phrase->getPhrase());
 
+    }
 
 }
