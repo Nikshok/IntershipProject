@@ -51,7 +51,7 @@ class VkService
             ]
         ]);
 
-        print_r($response);
+        print_r(json_decode($response->getBody()->getContents(), true));
 
     }
 }

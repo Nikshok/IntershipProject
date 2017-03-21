@@ -65,6 +65,14 @@ class VKController extends Controller
 
         $sender->execute();
 
+        //----------------------------------------------test------------------------------------
+
+        $sender = $this->get('vk_service');
+        $sender->sendMessage($user, 'Hello!');
+
+
+        //----------------------------------------------test------------------------------------
+
         return new Response('OK');
     }
 
