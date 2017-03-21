@@ -8,7 +8,7 @@ use AppBundle\Entity\User;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameSearchListener
+class GameStartListener
 {
     private $doctrine;
     private $messageDriver;
@@ -19,15 +19,13 @@ class GameSearchListener
     {
         $this->doctrine = $doctrine;
         $this->messageDriver = $messageDriver;
-
-
     }
 
     public function fire(Game $game) {
-        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 1]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUserId()]);
-        $this->messageDriver->addMessage($user, $phrase->getPhrase());
+        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 4]);
+        $user1 = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUserId()]);
+        $user2 = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getSecondUserId()]);
+        $this->messageDriver->addMessage($user1, $phrase->getPhrase());
+        $this->messageDriver->addMessage($user2, $phrase->getPhrase());
     }
-
-
 }

@@ -8,7 +8,7 @@ services:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
     vk_service:
-        class: AppBundle\Services\MessageSenders\VkService
+        class: AppBundle\Services\ProviderServices\VkService
         arguments: ['%access_token_vk%']
     message_parser_service:
         class: AppBundle\Services\MessageParser

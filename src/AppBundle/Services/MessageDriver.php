@@ -3,8 +3,7 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\User;
-use AppBundle\Services\MessageSenders\MessageSenderVK;
-use AppBundle\Services\MessageSenders\VkService;
+use AppBundle\Services\ProviderServices\VkService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 

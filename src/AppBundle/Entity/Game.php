@@ -52,7 +52,7 @@ class Game
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -60,23 +60,47 @@ class Game
     }
 
     /**
-     * Set firstUserId
+     * Set status
      *
-     * @param integer $firstUserId
+     * @param integer $status
      *
      * @return Game
      */
-    public function setFirstUser(int $firstUserId)
+    public function setStatus($status)
     {
-        $this->firstUser = $firstUserId;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get firstUser
+     * Get status
      *
-     * @return int
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set firstUser
+     *
+     * @param User $firstUser
+     *
+     * @return Game
+     */
+    public function setFirstUser(User $firstUser)
+    {
+        $this->firstUser = $firstUser;
+
+        return $this;
+    }
+
+    /**
+     * Get firstUserId
+     *
+     * @return User
      */
     public function getFirstUser()
     {
@@ -86,13 +110,13 @@ class Game
     /**
      * Set secondUser
      *
-     * @param integer $secondUserId
+     * @param User $secondUser
      *
      * @return Game
      */
-    public function setSecondUser(int $secondUserId)
+    public function setSecondUser(User $secondUser)
     {
-        $this->secondUser = $secondUserId;
+        $this->secondUser = $secondUser;
 
         return $this;
     }
@@ -100,7 +124,7 @@ class Game
     /**
      * Get secondUser
      *
-     * @return int
+     * @return User
      */
     public function getSecondUser()
     {
@@ -108,34 +132,26 @@ class Game
     }
 
     /**
-     * @return int
+     * Set winner
+     *
+     * @param User $winner
+     *
+     * @return Game
+     */
+    public function setWinner(User $winner)
+    {
+        $this->winner = $winner;
+
+        return $this;
+    }
+
+    /**
+     * Get winner
+     *
+     * @return User
      */
     public function getWinner()
     {
         return $this->winner;
-    }
-
-    /**
-     * @param int $winnerId
-     */
-    public function setWinner(int $winnerId)
-    {
-        $this->winner = $winnerId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status)
-    {
-        $this->status = $status;
     }
 }

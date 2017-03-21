@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Services\MessageSenders;
+namespace AppBundle\Services\ProviderServices;
 
 use AppBundle\Entity\User;
 use GuzzleHttp\Client;
