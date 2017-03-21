@@ -24,30 +24,30 @@ class Game
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="first_user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="first_user", referencedColumnName="id", nullable=false)
      */
-    private $firstUserId;
+    private $firstUser;
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="second_user_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="second_user", referencedColumnName="id", nullable=true)
      */
-    private $secondUserId;
+    private $secondUser;
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="winner_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="winner", referencedColumnName="id", nullable=true)
      */
-    private $winnerId;
+    private $winner;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="status_id", type="integer", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=false)
      */
-    private $statusId;
+    private $status;
 
     /**
      * Get id
@@ -66,78 +66,76 @@ class Game
      *
      * @return Game
      */
-    public function setFirstUserId($firstUserId)
+    public function setFirstUser(int $firstUserId)
     {
-        $this->firstUserId = $firstUserId;
+        $this->firstUser = $firstUserId;
 
         return $this;
     }
 
     /**
-     * Get firstUserId
+     * Get firstUser
      *
      * @return int
      */
-    public function getFirstUserId()
+    public function getFirstUser()
     {
-        return $this->firstUserId;
+        return $this->firstUser;
     }
 
     /**
-     * Set secondUserId
+     * Set secondUser
      *
      * @param integer $secondUserId
      *
      * @return Game
      */
-    public function setSecondUserId($secondUserId)
+    public function setSecondUser(int $secondUserId)
     {
-        $this->secondUserId = $secondUserId;
+        $this->secondUser = $secondUserId;
 
         return $this;
     }
 
     /**
-     * Get secondUserId
+     * Get secondUser
      *
      * @return int
      */
-    public function getSecondUserId()
+    public function getSecondUser()
     {
-        return $this->secondUserId;
+        return $this->secondUser;
     }
 
     /**
      * @return int
      */
-    public function getWinnerId()
+    public function getWinner()
     {
-        return $this->winnerId;
+        return $this->winner;
     }
 
     /**
      * @param int $winnerId
      */
-    public function setWinnerId(int $winnerId)
+    public function setWinner(int $winnerId)
     {
-        $this->winnerId = $winnerId;
+        $this->winner = $winnerId;
     }
 
     /**
      * @return int
      */
-    public function getStatusId(): int
+    public function getStatus(): int
     {
-        return $this->statusId;
+        return $this->status;
     }
 
     /**
-     * @param int $statusId
+     * @param int $status
      */
-    public function setStatusId(int $statusId)
+    public function setStatus(int $status)
     {
-        $this->statusId = $statusId;
+        $this->status = $status;
     }
-
-
 }

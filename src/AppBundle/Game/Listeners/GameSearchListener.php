@@ -20,18 +20,12 @@ class GameSearchListener
         $this->doctrine = $doctrine;
         $this->messageDriver = $messageDriver;
 
-
-
-
-
-
     }
 
-    public function fire(User $user) {
-        echo "GameSearchListener";
+    public function fire(User $user)
+    {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 1]);
         $this->messageDriver->addMessage($user, $phrase->getPhrase());
     }
-
 
 }

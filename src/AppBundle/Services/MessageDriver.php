@@ -4,6 +4,7 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\User;
 use AppBundle\Services\MessageSenders\MessageSenderVK;
+use AppBundle\Services\MessageSenders\VkService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,11 +19,11 @@ class MessageDriver
 
     private $messages = [];
 
-    public function __construct(MessageSenderVK $sender_vk_service, EntityManager $em)
+    public function __construct(VkService $vkService, EntityManager $em)
     {
         $this->em = $em;
 
-        $this->senderServices[User::PROVIDER_VK] = $sender_vk_service;
+        $this->senderServices[User::PROVIDER_VK] = $vkService;
     }
 
     public function addMessage(User $user, $message)

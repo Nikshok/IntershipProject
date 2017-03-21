@@ -20,8 +20,6 @@ class GameSearchEvent
         $this->user = $user;
         $this->value = $value;
 
-        echo "GameSearchEvent";
-
         $listener = new GameSearchListener($this->doctrine, $this->messageDriver);
         $listener->fire($user);
     }
