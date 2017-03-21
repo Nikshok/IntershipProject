@@ -52,7 +52,7 @@ class Game
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -60,13 +60,41 @@ class Game
     }
 
     /**
-     * Set firstUserId
+     * Set statusId
      *
-     * @param integer $firstUserId
+     * @param integer $statusId
      *
      * @return Game
      */
+    public function setStatusId($statusId)
+    {
+        $this->statusId = $statusId;
+
+        return $this;
+    }
+
+    /**
+     * Get statusId
+     *
+     * @return integer
+     */
+    public function getStatusId()
+    {
+        return $this->statusId;
+    }
+
+    /**
+     * Set firstUserId
+     *
+     * @param \AppBundle\Entity\User $firstUserId
+     *
+     * @return Game
+     */
+<<<<<<< HEAD
     public function setFirstUser(int $firstUserId)
+=======
+    public function setFirstUserId(\AppBundle\Entity\User $firstUserId)
+>>>>>>> 06be8f91fcd680269878daa26b3fddc20f7cf783
     {
         $this->firstUser = $firstUserId;
 
@@ -76,7 +104,7 @@ class Game
     /**
      * Get firstUser
      *
-     * @return int
+     * @return \AppBundle\Entity\User
      */
     public function getFirstUser()
     {
@@ -86,11 +114,15 @@ class Game
     /**
      * Set secondUser
      *
-     * @param integer $secondUserId
+     * @param \AppBundle\Entity\User $secondUserId
      *
      * @return Game
      */
+<<<<<<< HEAD
     public function setSecondUser(int $secondUserId)
+=======
+    public function setSecondUserId(\AppBundle\Entity\User $secondUserId = null)
+>>>>>>> 06be8f91fcd680269878daa26b3fddc20f7cf783
     {
         $this->secondUser = $secondUserId;
 
@@ -100,7 +132,7 @@ class Game
     /**
      * Get secondUser
      *
-     * @return int
+     * @return \AppBundle\Entity\User
      */
     public function getSecondUser()
     {
@@ -108,6 +140,7 @@ class Game
     }
 
     /**
+<<<<<<< HEAD
      * @return int
      */
     public function getWinner()
@@ -137,5 +170,28 @@ class Game
     public function setStatus(int $status)
     {
         $this->status = $status;
+=======
+     * Set winnerId
+     *
+     * @param \AppBundle\Entity\User $winnerId
+     *
+     * @return Game
+     */
+    public function setWinnerId(\AppBundle\Entity\User $winnerId = null)
+    {
+        $this->winnerId = $winnerId;
+
+        return $this;
+    }
+
+    /**
+     * Get winnerId
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getWinnerId()
+    {
+        return $this->winnerId;
+>>>>>>> 06be8f91fcd680269878daa26b3fddc20f7cf783
     }
 }
