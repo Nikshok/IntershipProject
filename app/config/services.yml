@@ -8,31 +8,10 @@ services:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
     vk_service:
-<<<<<<< HEAD
-        class: AppBundle\Services\MessageSenders\VkService
-=======
         class: AppBundle\Services\ProviderServices\VkService
->>>>>>> TestBranch
         arguments: ['%access_token_vk%']
     message_parser_service:
         class: AppBundle\Services\MessageParser
     message_driver_service:
         class: AppBundle\Services\MessageDriver
-<<<<<<< HEAD
-<<<<<<< HEAD
         arguments: ['@vk_service', '@doctrine.orm.entity_manager']
-=======
-        arguments: ['@sender_vk_service']
-    find_game_service:
-        class: AppBundle\Services\Game\Event\GameSearchEvent
-        arguments: [ "@doctrine.orm.entity_manager", "@founded_game_service", "@searching_game_service"]
-    founded_game_service:
-        class: AppBundle\Services\Game\Listeners\GameFoundListener
-        arguments: [ "@doctrine.orm.entity_manager", "@message_driver_service"]
-    searching_game_service:
-        class: AppBundle\Services\Game\Listeners\GameSearchListener
-        arguments: [ "@doctrine.orm.entity_manager", "@message_driver_service"]
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
-=======
-        arguments: ['@vk_service', '@doctrine.orm.entity_manager']
->>>>>>> TestBranch
