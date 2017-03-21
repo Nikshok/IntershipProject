@@ -24,32 +24,126 @@ class Game
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="first_user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="first_user", referencedColumnName="id", nullable=false)
      */
-    private $firstUserId;
+    private $firstUser;
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="second_user_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="second_user", referencedColumnName="id", nullable=true)
      */
-    private $secondUserId;
+    private $secondUser;
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="winner_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="winner", referencedColumnName="id", nullable=true)
      */
-    private $winnerId;
+    private $winner;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="status_id", type="integer", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=false)
      */
-    private $statusId;
+    private $status;
 
-   
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set statusId
+     *
+     * @param integer $status
+     *
+     * @return Game
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
+        return $this;
+    }
+
+    /**
+     * Get statusId
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set firstUser
+     *
+     * @param $firstUserId
+     *
+     * @return Game
+     */
+    public function setFirstUser(int $firstUserId)
+    {
+        $this->firstUser = $firstUserId;
+
+        return $this;
+    }
+
+    /**
+     * Get firstUser
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getFirstUser()
+    {
+        return $this->firstUser;
+    }
+
+    /**
+     * Set secondUser
+     *
+     * @param $secondUserId
+     *
+     * @return Game
+     */
+    public function setSecondUser(int $secondUserId)
+    {
+        $this->secondUser = $secondUserId;
+
+        return $this;
+    }
+
+    /**
+     * Get secondUser
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getSecondUser()
+    {
+        return $this->secondUser;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    /**
+     * @param int $winnerId
+     */
+    public function setWinner(int $winnerId)
+    {
+        $this->winner = $winnerId;
+    }
 }

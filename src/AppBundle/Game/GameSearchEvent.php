@@ -23,6 +23,11 @@ class GameSearchEvent
         $this->user = $user;
         $this->value = $value;
 
+<<<<<<< HEAD
+        $listener = new GameSearchListener($this->doctrine, $this->messageDriver);
+        $listener->fire($user);
+=======
+>>>>>>> 06be8f91fcd680269878daa26b3fddc20f7cf783
     }
 
     /**
