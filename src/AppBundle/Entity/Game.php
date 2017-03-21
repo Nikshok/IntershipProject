@@ -90,7 +90,7 @@ class Game
      *
      * @return Game
      */
-    public function setFirstUserId(User $firstUser)
+    public function setFirstUser(User $firstUser)
     {
         $this->firstUser = $firstUser;
 
@@ -114,7 +114,7 @@ class Game
      *
      * @return Game
      */
-    public function setSecondUserId(User $secondUser)
+    public function setSecondUser(User $secondUser)
     {
         $this->secondUser = $secondUser;
 
