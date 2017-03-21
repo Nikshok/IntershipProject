@@ -54,4 +54,26 @@ class VkService
         print_r(json_decode($response->getBody()->getContents(), true));
 
     }
+
+    public function getUserInfo($user_import_id)
+    {
+        $url = 'https://api.vk.com/method/users.get';
+
+        $parameters = [
+            'user_ids' => $user_import_id,
+            'fields' => 'photo_200',
+        ];
+
+        $client = new Client();
+
+        $json_response = $client->request('POST', $url, ['query' => $parameters]);
+
+        $response = json_decode($json_response->getBody()->getContents(), true);
+
+        return [
+            'first_name' => $response['response'][0]['first_name'],
+            'last_name' => $response['response'][0]['last_name'],
+            'avatar' => $response['response'][0]['photo_200'],
+        ];
+    }
 }
