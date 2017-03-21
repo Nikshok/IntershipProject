@@ -49,11 +49,10 @@ class Game
      */
     private $status;
 
-<<<<<<< HEAD
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -61,9 +60,33 @@ class Game
     }
 
     /**
-     * Set firstUserId
+     * Set statusId
      *
-     * @param integer $firstUserId
+     * @param integer $status
+     *
+     * @return Game
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get statusId
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set firstUser
+     *
+     * @param $firstUserId
      *
      * @return Game
      */
@@ -77,7 +100,7 @@ class Game
     /**
      * Get firstUser
      *
-     * @return int
+     * @return \AppBundle\Entity\User
      */
     public function getFirstUser()
     {
@@ -87,7 +110,7 @@ class Game
     /**
      * Set secondUser
      *
-     * @param integer $secondUserId
+     * @param $secondUserId
      *
      * @return Game
      */
@@ -101,7 +124,7 @@ class Game
     /**
      * Get secondUser
      *
-     * @return int
+     * @return \AppBundle\Entity\User
      */
     public function getSecondUser()
     {
@@ -123,25 +146,4 @@ class Game
     {
         $this->winner = $winnerId;
     }
-
-    /**
-     * @return int
-     */
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status)
-    {
-        $this->status = $status;
-    }
-=======
-   
-
-
->>>>>>> 06be8f91fcd680269878daa26b3fddc20f7cf783
 }
