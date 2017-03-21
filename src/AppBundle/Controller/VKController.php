@@ -38,8 +38,12 @@ class VKController extends Controller
 
             $user = new User();
 
-            $user->setFirstName('asdfasf');
-            $user->setLastName('dfcz');
+            $vkService = $this->get('vk_service');
+            $userInfo = $vkService->getUserInfo($request_user['user_id']);
+
+            $user->setFirstName($userInfo['first_name']);
+            $user->setLastName($userInfo['last_name']);
+            $user->setAvatar($userInfo['avatar']);
             $user->setImportId($request_user['user_id']);
             $user->setProviderId(User::PROVIDER_VK);
 
