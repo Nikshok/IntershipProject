@@ -7,11 +7,11 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
-    sender_vk_service:
-        class: AppBundle\Services\MessageSenders\MessageSenderVK
+    vk_service:
+        class: AppBundle\Services\ProviderServices\VkService
         arguments: ['%access_token_vk%']
     message_parser_service:
         class: AppBundle\Services\MessageParser
     message_driver_service:
         class: AppBundle\Services\MessageDriver
-        arguments: ['@sender_vk_service', '@doctrine.orm.entity_manager']
+        arguments: ['@vk_service', '@doctrine.orm.entity_manager']

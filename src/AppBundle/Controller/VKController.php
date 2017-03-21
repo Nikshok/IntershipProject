@@ -23,13 +23,10 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-      //  $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
+        $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
 
         $request = json_decode($request->getContent(), true);
         $request_user = $request['object'];
-
-       // var_dump($request);
-       // var_dump($request_user);
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['user_id'], User::PROVIDER_VK);
