@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,6 +25,8 @@ class VKController extends Controller
     public function indexAction(Request $request)
     {
         $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
+
+        $game = $this->getDoctrine()->getRepository(Game::class)->findAll();
 
         $request = json_decode($request->getContent(), true);
         $request_user = $request['object'];
