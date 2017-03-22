@@ -17,27 +17,6 @@ class VkService
 
     public function sendMessage(User $user, $message)
     {
-        $parameters = [
-            'user_id' => $user->getImportId(),
-            'message' => $message,
-            'access_token' => $this->access_token,
-        ];
-
-        $url = 'https://api.vk.com/method/messages.send';
-
-        $curl = curl_init('');
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_REFERER, 'http://google.com');
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($parameters));
-
-        curl_exec($curl);
-
-        curl_close($curl);
-
         $url = "https://pu.vk.com/c638125/upload.php?act=do_add&mid=87305277&aid=-64&gid=142517072&hash=7614cf4c65951d3ea70eedf5ca8d951d&rhash=be24453aa143a7ba33951463f5e90b41&swfupload=1&api=1&mailphoto=1";
 
         $client = new Client();
@@ -46,12 +25,36 @@ class VkService
             'multipart' => [
                 [
                     'name' => 'photo',
-                    'contents' => fopen('/home/nikshok/Pictures/test.jpg', 'r'),
+                    'contents' => fopen(__DIR__ . '/test.jpg', 'r'),
                 ],
             ]
         ]);
 
-        print_r(json_decode($response->getBody()->getContents(), true));
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        $url = 'https://api.vk.com/method/photos.saveMessagesPhoto';
+
+        $parameters = [
+            'photo' => stripslashes($response['photo']),
+            'server' => $response['server'],
+            'hash' => $response['hash'],
+            'access_token' => $this->access_token,
+        ];
+
+        $response = $client->request('POST', $url, ['query' => $parameters]);
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        $url = 'https://api.vk.com/method/messages.send';
+
+        $parameters = [
+            'user_id' => $user->getImportId(),
+            'message' => $message,
+            'attachment' => 'photo' . $response['response'][0]['owner_id'] . '_' . $response['response'][0]['pid'],
+            'access_token' => $this->access_token,
+        ];
+
+        $client->request('POST', $url, ['query' => $parameters]);
 
     }
 
