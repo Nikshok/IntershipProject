@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/vk", name="homepage")
  */
-class VKController extends Controller
+class VkController extends Controller
 {
     /**
      * @param Request $request
@@ -24,12 +24,12 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
-
-        $game = $this->getDoctrine()->getRepository(Game::class)->findAll();
-
         $request = json_decode($request->getContent(), true);
         $request_user = $request['object'];
+
+        if ($request_user['user_id'] == null || $request_user['body'] == null) {
+            return new Response('OK');
+        }
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['user_id'], User::PROVIDER_VK);
@@ -64,14 +64,6 @@ class VKController extends Controller
         new $eventClassName($this->getDoctrine(), $sender, $user, $eventArr['param']);
 
         $sender->execute();
-
-        //----------------------------------------------test------------------------------------
-
-        $sender = $this->get('vk_service');
-        $sender->sendMessage($user, 'Hello!');
-
-
-        //----------------------------------------------test------------------------------------
 
         return new Response('OK');
     }
