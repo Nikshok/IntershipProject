@@ -24,8 +24,19 @@ class VkController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $request = json_decode($request->getContent(), true);
+        if (!$request = json_decode($request->getContent(), true)) {
+            return new Response('OK');
+        }
+
+        if (!isset($request['object'])) {
+            return new Response('OK');
+        }
+
         $request_user = $request['object'];
+
+        if (!isset($request_user['user_id']) || !isset($request_user['body'])) {
+            return new Response('OK');
+        }
 
         if ($request_user['user_id'] == null || $request_user['body'] == null) {
             return new Response('OK');
