@@ -4,12 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "hash": "2e7fb283108a9c174e0f2b60ad1ba0d4",
     "content-hash": "88c9e4ce001b51ea1a13997df9e88bc4",
-=======
-    "content-hash": "2b315a318789ab329d3a60b73a91b1b4",
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -77,11 +73,7 @@
                 "docblock",
                 "parser"
             ],
-<<<<<<< HEAD
             "time": "2017-02-24 16:22:25"
-=======
-            "time": "2017-02-24T16:22:25+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "doctrine/cache",
@@ -218,11 +210,7 @@
                 "collections",
                 "iterator"
             ],
-<<<<<<< HEAD
             "time": "2017-01-03 10:49:41"
-=======
-            "time": "2017-01-03T10:49:41+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "doctrine/common",
@@ -295,11 +283,7 @@
                 "persistence",
                 "spl"
             ],
-<<<<<<< HEAD
             "time": "2017-01-13 14:02:13"
-=======
-            "time": "2017-01-13T14:02:13+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "doctrine/dbal",
@@ -1147,11 +1131,7 @@
                 "logging",
                 "psr-3"
             ],
-<<<<<<< HEAD
             "time": "2017-03-13 07:08:03"
-=======
-            "time": "2017-03-13T07:08:03+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "paragonie/random_compat",
@@ -1199,11 +1179,7 @@
                 "pseudorandom",
                 "random"
             ],
-<<<<<<< HEAD
             "time": "2017-03-13 16:27:32"
-=======
-            "time": "2017-03-13T16:27:32+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "psr/cache",
@@ -2229,11 +2205,7 @@
             "keywords": [
                 "templating"
             ],
-<<<<<<< HEAD
             "time": "2017-02-27 00:16:20"
-=======
-            "time": "2017-02-27T00:16:20+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         }
     ],
     "packages-dev": [
@@ -2402,14 +2374,10 @@
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
-                }
+                }S
             ],
             "description": "This bundle generates code for you",
-<<<<<<< HEAD
             "time": "2017-03-15 01:02:10"
-=======
-            "time": "2017-03-15T01:02:10+00:00"
->>>>>>> 3a16ee4bd4f103b2c75f3ebb509286395d36021b
         },
         {
             "name": "symfony/phpunit-bridge",
