@@ -28,11 +28,11 @@ class VkService
         $response = $client->request('POST', $url, ['query' => $parameters]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
-            return new Response('OK');
+            return false;
         }
 
         if (!isset($response['response']['upload_url'])) {
-            return new Response('OK');
+            return false;
         }
 
         $url = $response['response']['upload_url'];
@@ -47,7 +47,7 @@ class VkService
         ]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
-            return new Response('OK');
+            return false;
         }
 
         $url = 'https://api.vk.com/method/photos.saveMessagesPhoto';
@@ -62,7 +62,7 @@ class VkService
         $response = $client->request('POST', $url, ['query' => $parameters]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
-            return new Response('OK');
+            return false;
         }
 
         $url = 'https://api.vk.com/method/messages.send';
@@ -89,9 +89,11 @@ class VkService
 
         $client = new Client();
 
-        $json_response = $client->request('POST', $url, ['query' => $parameters]);
+        $response = $client->request('POST', $url, ['query' => $parameters]);
 
-        $response = json_decode($json_response->getBody()->getContents(), true);
+        if (!$response = json_decode($response->getBody()->getContents(), true)) {
+            return false;
+        }
 
         return [
             'first_name' => $response['response'][0]['first_name'],

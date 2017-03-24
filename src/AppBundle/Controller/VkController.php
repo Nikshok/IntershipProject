@@ -52,6 +52,10 @@ class VkController extends Controller
             $vkService = $this->get('vk_service');
             $userInfo = $vkService->getUserInfo($request_user['user_id']);
 
+            if (!$userInfo == false) {
+                return new Response('OK');
+            }
+
             $user->setFirstName($userInfo['first_name']);
             $user->setLastName($userInfo['last_name']);
             $user->setAvatar($userInfo['avatar']);
@@ -71,7 +75,8 @@ class VkController extends Controller
 
         $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
 
-        new $eventClassName($this->getDoctrine(), $sender, $user, $eventArr['param']);
+        $event = new $eventClassName($this->getDoctrine(), $sender);
+        $event->fire($user, $eventArr['param']);
 
         $sender->execute();
 
