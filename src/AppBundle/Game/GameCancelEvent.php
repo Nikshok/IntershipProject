@@ -25,7 +25,7 @@ class GameCancelEvent extends GameAbstractEvent
             $em->remove($findGame);
             $em->flush();
             $listener = new GameRemoveListener($this->doctrine, $this->messageDriver);
-            $listener->remove($user);
+            $listener->fire($user);
 
         }
     }

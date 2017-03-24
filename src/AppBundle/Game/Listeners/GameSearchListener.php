@@ -8,24 +8,12 @@ use AppBundle\Entity\User;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameSearchListener
+class GameSearchListener extends GameAbstractListener
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
-
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver)
-    {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-
-
-    }
 
     public function fire(Game $game) {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 1]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUser()]);
+        $user = $game->getFirstUser();
         $this->messageDriver->addMessage($user, $phrase->getPhrase());
     }
 

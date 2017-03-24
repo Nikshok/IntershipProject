@@ -30,6 +30,6 @@ class GameEndEvent extends GameAbstractEvent
 
         $em->flush();
         $listener = new GameEndListener($this->doctrine, $this->messageDriver);
-        $listener->end($game, $loserUser);
+        $listener->fire($game, $loserUser);
     }
 }
