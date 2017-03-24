@@ -5,7 +5,7 @@ namespace AppBundle\Game\Listeners;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameAbstractListener
+abstract class GameAbstractListener
 {
 
     protected $doctrine;
