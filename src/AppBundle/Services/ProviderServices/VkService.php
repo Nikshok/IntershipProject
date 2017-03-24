@@ -107,11 +107,11 @@ class VkService
         }
 
         if (isset($response['response'][0]['last_name'])) {
-            $return['last_name'] = $response['response'][0]['first_name'];
+            $return['last_name'] = $response['response'][0]['last_name'];
         }
 
         if (isset($response['response'][0]['photo_200_orig'])) {
-            $return['photo_200_orig'] = $response['response'][0]['first_name'];
+            $return['photo_200_orig'] = $response['response'][0]['photo_200_orig'];
         }
 
         return $return;
