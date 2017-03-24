@@ -23,9 +23,9 @@ class GameSearchEvent extends GameAbstractEvent
             $em = $this->doctrine->getManager();
             $findGame->setSecondUser($user);
             $findGame->setStatus(2);
+            $em->flush();
             $listener = new GameFoundedListener($this->doctrine, $this->messageDriver);
             $listener->fire($findGame);
-            $em->flush();
 
         } else {
 

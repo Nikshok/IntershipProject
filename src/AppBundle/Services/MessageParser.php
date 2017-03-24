@@ -9,8 +9,8 @@ class MessageParser
     const ACTIONS = [
         'GameSearchEvent' => 'поиск',
         'GameCancelEvent' => 'отмена',
-        'GameReadyEvent' => 'готов',
-        'GameSurrenderEvent' => 'сдаться',
+        'GameStartEvent' => 'готов',
+        'GameCapitulateEvent' => 'сдаться',
         'GameAnswerEvent' => 'ответ',
     ];
 
