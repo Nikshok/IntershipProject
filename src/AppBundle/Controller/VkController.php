@@ -52,10 +52,6 @@ class VkController extends Controller
             $vkService = $this->get('vk_service');
             $userInfo = $vkService->getUserInfo($request_user['user_id']);
 
-            if (!$userInfo == false) {
-                return new Response('OK');
-            }
-
             $user->setFirstName($userInfo['first_name']);
             $user->setLastName($userInfo['last_name']);
             $user->setAvatar($userInfo['avatar']);
@@ -87,13 +83,14 @@ class VkController extends Controller
      * @Route("/test")
      */
     public function testAction() {
-        $sender = $this->get('message_driver_service');
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->find(1);
 
-        $event = new GameSearchEvent($this->getDoctrine(), $sender, $user);
+        $response = array();
 
-        $sender->execute();
+        if (!isset($response['response'][0]['first_name'])
+        ) {
+            echo 7777;
+        }
     }
+
 
 }

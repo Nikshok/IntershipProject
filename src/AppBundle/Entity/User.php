@@ -24,14 +24,14 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     private $lastName;
 
