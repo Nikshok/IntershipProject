@@ -187,4 +187,8 @@ class User
     {
         return $this->avatar;
     }
+
+    public function getFullName(){
+        return $this->firstName." ".$this->lastName;
+    }
 }

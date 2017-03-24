@@ -6,8 +6,6 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameFoundedListener;
 use AppBundle\Game\Listeners\GameSearchListener;
-use AppBundle\Services;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class GameSearchEvent extends GameAbstractEvent
 {
@@ -32,23 +30,33 @@ class GameSearchEvent extends GameAbstractEvent
         } else {
 
             $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
-                ->where('g.firstUser = :firstUser AND g.secondUser IS NULL')
-                ->setParameter('firstUser', $user)
+                ->where('g.firstUser != :user AND g.secondUser = :user AND (g.status = 2 OR g.status = 3)')
+                ->setParameter('user', $user)
                 ->getQuery();
-            $findStartedGame = $query->setMaxResults(1)->getOneOrNullResult();
 
-            if (!isset($findStartedGame)) {
+            $findGame = $query->setMaxResults(1)->getOneOrNullResult();
 
-                $em = $this->doctrine->getManager();
-                $findGame = new Game();
-                $findGame->setFirstUser($user);
-                $findGame->setStatus(1);
-                $em->persist($findGame);
-                $em->flush();
-                $listener = new GameSearchListener($this->doctrine, $this->messageDriver);
-                $listener->fire($findGame);
+            if (!isset($findGame)) {
+
+                $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
+                    ->where('g.firstUser = :firstUser AND g.secondUser IS NULL')
+                    ->setParameter('firstUser', $user)
+                    ->getQuery();
+                $findStartedGame = $query->setMaxResults(1)->getOneOrNullResult();
+
+                if (!isset($findStartedGame)) {
+
+                    $em = $this->doctrine->getManager();
+                    $findGame = new Game();
+                    $findGame->setFirstUser($user);
+                    $findGame->setStatus(1);
+                    $em->persist($findGame);
+                    $em->flush();
+                    $listener = new GameSearchListener($this->doctrine, $this->messageDriver);
+                    $listener->fire($findGame);
+                }
+
             }
-
         }
     }
 }

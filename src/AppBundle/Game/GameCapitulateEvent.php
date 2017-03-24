@@ -37,7 +37,7 @@ class GameCapitulateEvent extends GameAbstractEvent
             $findGame->setWinner($winnerUser);
             $em->flush();
             $listener = new GameCapitulateListener($this->doctrine, $this->messageDriver);
-            $listener->capitulate($findGame, $winnerUser, $loserUser);
+            $listener->fire($findGame, $winnerUser, $loserUser);
         }
     }
 }
