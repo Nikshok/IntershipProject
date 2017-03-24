@@ -25,7 +25,7 @@ class GameSearchListener
 
     public function fire(Game $game) {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 1]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUserId()]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUser()]);
         $this->messageDriver->addMessage($user, $phrase->getPhrase());
     }
 

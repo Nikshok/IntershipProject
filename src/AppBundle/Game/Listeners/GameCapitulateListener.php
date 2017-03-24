@@ -8,24 +8,13 @@ use AppBundle\Entity\User;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameCapitulateListener
+class GameCapitulateListener extends GameAbstractListener
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
-
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver)
-    {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-
-    }
 
     public function capitulate(Game $game, User $winnerUser, User $loserUser) {
 
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 6]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUserId()]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getFirstUser()]);
         $this->messageDriver->addMessage($winnerUser, $phrase->getPhrase());
 
     }

@@ -8,36 +8,23 @@ use AppBundle\Game\Listeners\GameEndListener;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameEndEvent
+class GameEndEvent extends GameAbstractEvent
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
 
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver, User $user, $value = null)
-    {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-        $this->user = $user;
-        $this->value = $value;
-
-    }
-
-    public function gameEndEvent(Registry $doctrine, Game $game, User $user)
+    public function fire(Game $game, User $user)
     {
 
-        $em = $doctrine->getManager();
-        $game->setStatusId(5);
-        $game->setWinnerId($user);
+        $em = $this->doctrine->getManager();
+        $game->setStatus(5);
+        $game->setWinner($user);
 
-        if ($game->getFirstUserId() == $user) {
+        if ($game->getFirstUser() == $user) {
 
-            $loserUser = $game->getSecondUserId();
+            $loserUser = $game->getSecondUser();
 
         } else {
 
-            $loserUser = $game->getFirstUserId();
+            $loserUser = $game->getFirstUser();
 
         }
 

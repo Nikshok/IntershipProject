@@ -25,7 +25,7 @@ class GameEndListener
     public function end(Game $game, User $loserUser) {
 
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 7]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getWinnerId()]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $game->getWinner()]);
         $this->messageDriver->addMessage($user, $phrase->getPhrase());
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 8]);
         $this->messageDriver->addMessage($loserUser, $phrase->getPhrase());

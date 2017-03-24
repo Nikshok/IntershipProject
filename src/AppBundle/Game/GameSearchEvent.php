@@ -9,58 +9,40 @@ use AppBundle\Game\Listeners\GameSearchListener;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameSearchEvent
+class GameSearchEvent extends GameAbstractEvent
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
-
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver, User $user, $value = null)
+    public function fire(User $user, $value = null)
     {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-        $this->user = $user;
-        $this->value = $value;
-
-    }
-
-    /**
-     * @param Registry $doctrine
-     * @param User $user
-     */
-    public function gameSearchEvent(Registry $doctrine, User $user)
-    {
-        $query = $doctrine->getRepository(Game::class)->createQueryBuilder('g')
-            ->where('g.firstUserId != :firstUserId AND g.secondUserId IS NULL')
-            ->setParameter('firstUserId', $user)
+        $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
+            ->where('g.firstUser != :firstUser AND g.secondUser IS NULL')
+            ->setParameter('firstUser', $user)
             ->getQuery();
 
         $findGame = $query->setMaxResults(1)->getOneOrNullResult();
 
         if (isset($findGame)) {
 
-            $em = $doctrine->getManager();
-            $findGame->setSecondUserId($user);
-            $findGame->setStatusId(2);
+            $em = $this->doctrine->getManager();
+            $findGame->setSecondUser($user);
+            $findGame->setStatus(2);
             $listener = new GameFoundedListener($this->doctrine, $this->messageDriver);
             $listener->fire($findGame);
             $em->flush();
 
         } else {
 
-            $query = $doctrine->getRepository(Game::class)->createQueryBuilder('g')
-                ->where('g.firstUserId = :firstUserId AND g.secondUserId IS NULL')
-                ->setParameter('firstUserId', $user)
+            $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
+                ->where('g.firstUser = :firstUser AND g.secondUser IS NULL')
+                ->setParameter('firstUser', $user)
                 ->getQuery();
             $findStartedGame = $query->setMaxResults(1)->getOneOrNullResult();
 
             if (!isset($findStartedGame)) {
 
-                $em = $doctrine->getManager();
+                $em = $this->doctrine->getManager();
                 $findGame = new Game();
-                $findGame->setFirstUserId($user);
-                $findGame->setStatusId(1);
+                $findGame->setFirstUser($user);
+                $findGame->setStatus(1);
                 $em->persist($findGame);
                 $em->flush();
                 $listener = new GameSearchListener($this->doctrine, $this->messageDriver);
