@@ -17,9 +17,25 @@ class VkService
 
     public function sendMessage(User $user, $message)
     {
-        $url = "https://pu.vk.com/c638125/upload.php?act=do_add&mid=87305277&aid=-64&gid=142517072&hash=7614cf4c65951d3ea70eedf5ca8d951d&rhash=be24453aa143a7ba33951463f5e90b41&swfupload=1&api=1&mailphoto=1";
-
         $client = new Client();
+
+        $url = 'https://api.vk.com/method/photos.getMessagesUploadServer';
+
+        $parameters = [
+            'access_token' => $this->access_token,
+        ];
+
+        $response = $client->request('POST', $url, ['query' => $parameters]);
+
+        if (!$response = json_decode($response->getBody()->getContents(), true)) {
+            return new Response('OK');
+        }
+
+        if (!isset($response['response']['upload_url'])) {
+            return new Response('OK');
+        }
+
+        $url = $response['response']['upload_url'];
 
         $response = $client->request('POST', $url, [
             'multipart' => [
@@ -30,7 +46,9 @@ class VkService
             ]
         ]);
 
-        $response = json_decode($response->getBody()->getContents(), true);
+        if (!$response = json_decode($response->getBody()->getContents(), true)) {
+            return new Response('OK');
+        }
 
         $url = 'https://api.vk.com/method/photos.saveMessagesPhoto';
 
@@ -43,7 +61,9 @@ class VkService
 
         $response = $client->request('POST', $url, ['query' => $parameters]);
 
-        $response = json_decode($response->getBody()->getContents(), true);
+        if (!$response = json_decode($response->getBody()->getContents(), true)) {
+            return new Response('OK');
+        }
 
         $url = 'https://api.vk.com/method/messages.send';
 

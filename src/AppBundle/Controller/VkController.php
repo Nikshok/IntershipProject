@@ -61,7 +61,6 @@ class VkController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
         }
 
         $parser = $this->get('message_parser_service');
