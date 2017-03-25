@@ -8,21 +8,10 @@ use AppBundle\Entity\User;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameRemoveListener
+class GameRemoveListener extends GameAbstractListener
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
 
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver)
-    {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-
-    }
-
-    public function remove(User $user) {
+    public function fire(User $user) {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 10]);
         $this->messageDriver->addMessage($user, $phrase->getPhrase());
     }

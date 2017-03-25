@@ -8,49 +8,36 @@ use AppBundle\Game\Listeners\GameCapitulateListener;
 use AppBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class GameCapitulateEvent
+class GameCapitulateEvent extends GameAbstractEvent
 {
-    private $doctrine;
-    private $messageDriver;
-    private $user;
-    private $value;
 
-    public function __construct(Registry $doctrine, Services\MessageDriver $messageDriver, User $user, $value = null)
-    {
-        $this->doctrine = $doctrine;
-        $this->messageDriver = $messageDriver;
-        $this->user = $user;
-        $this->value = $value;
+    public function fire(User $user, $value = null) {
 
-    }
-
-    public function gameCapitulateEvent(Registry $doctrine, User $user) {
-
-        $query = $doctrine->getRepository(Game::class)->createQueryBuilder('g')
-            ->where('(g.firstUserId = :user OR g.secondUserId = :user) AND g.statusId = 3')
+        $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
+            ->where('(g.firstUser = :user OR g.secondUser = :user) AND g.status = 3')
             ->setParameter('user', $user)
             ->getQuery();
 
         $findGame = $query->setMaxResults(1)->getOneOrNullResult();
 
         if (isset($findGame)) {
-            $em = $doctrine->getManager();
-            $findGame->setStatusId(4);
-            $checkUser = $findGame->getFirstUserId();
+            $em = $this->doctrine->getManager();
+            $findGame->setStatus(4);
+            $checkUser = $findGame->getFirstUser();
             if ($checkUser == $user) {
 
-                $winnerUser = $findGame->getSecondUserId();
-                $loserUser = $findGame->getFirstUserId();
+                $winnerUser = $findGame->getSecondUser();
+                $loserUser = $findGame->getFirstUser();
 
             } else {
 
-                $winnerUser = $findGame->getFirstUserId();
-                $loserUser = $findGame->getSecondUserId();
+                $winnerUser = $findGame->getFirstUser();
+                $loserUser = $findGame->getSecondUser();
             }
-            $findGame->setWinnerId($winnerUser);
+            $findGame->setWinner($winnerUser);
             $em->flush();
             $listener = new GameCapitulateListener($this->doctrine, $this->messageDriver);
-            $listener->capitulate($findGame, $winnerUser, $loserUser);
+            $listener->fire($findGame, $winnerUser, $loserUser);
         }
     }
 }

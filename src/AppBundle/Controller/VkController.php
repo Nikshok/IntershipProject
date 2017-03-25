@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/vk", name="homepage")
  */
-class VKController extends Controller
+class VkController extends Controller
 {
     /**
      * @param Request $request
@@ -23,10 +24,23 @@ class VKController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $json_string = '{"type":"message_new","object":{"id":19,"date":1489756944,"out":0,"user_id":87305277,"read_state":0,"title":" ... ","body":"поиск"},"group_id":142630176}';
+        if (!$request = json_decode($request->getContent(), true)) {
+            return new Response('OK');
+        }
 
-        $request = json_decode($request->getContent(), true);
+        if (!isset($request['object'])) {
+            return new Response('OK');
+        }
+
         $request_user = $request['object'];
+
+        if (!isset($request_user['user_id']) || !isset($request_user['body'])) {
+            return new Response('OK');
+        }
+
+        if ($request_user['user_id'] == null || $request_user['body'] == null) {
+            return new Response('OK');
+        }
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['user_id'], User::PROVIDER_VK);
@@ -47,7 +61,6 @@ class VKController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
         }
 
         $parser = $this->get('message_parser_service');
@@ -58,7 +71,8 @@ class VKController extends Controller
 
         $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
 
-        new $eventClassName($this->getDoctrine(), $sender, $user, $eventArr['param']);
+        $event = new $eventClassName($this->getDoctrine(), $sender);
+        $event->fire($user, $eventArr['param']);
 
         $sender->execute();
 
@@ -69,13 +83,14 @@ class VKController extends Controller
      * @Route("/test")
      */
     public function testAction() {
-        $sender = $this->get('message_driver_service');
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->find(1);
 
-        $event = new GameSearchEvent($this->getDoctrine(), $sender, $user);
+        $response = array();
 
-        $sender->execute();
+        if (!isset($response['response'][0]['first_name'])
+        ) {
+            echo 7777;
+        }
     }
+
 
 }

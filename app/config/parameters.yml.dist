@@ -17,4 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
-    access_token_vk: 4be611fd47c820319cd98cd7006955655cbd45f3f9375760a60b7bda9d6d8c98c9f6c019df475efefb644
+
+    peer_id: -142630176
+    access_token_vk: 772d64bc1dc8ecda9f71b4fabffdac0a479775d90b1f104af6b3c6c9355ffd00db30df51062b7a65b1e09
+    v: 5.62
