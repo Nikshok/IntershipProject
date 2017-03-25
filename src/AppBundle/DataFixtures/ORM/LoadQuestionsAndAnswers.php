@@ -2,10 +2,9 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Question;
 use AppBundle\Entity\Answer;
+use AppBundle\Entity\Question;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -53,9 +52,37 @@ class LoadQuestionsAndAnswers extends AbstractFixture implements OrderedFixtureI
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::QUESTIONS_ANSWERS as $ACTION => $QUESTION) {
+        foreach (self::QUESTIONS_ANSWERS as $ACTION => $VARIANT) {
+            foreach ($VARIANT as $NUMBER => $QUESTION) {
+                if ($NUMBER == 0) {
 
-           //TODO
+                    $question = new Question();
+                    $question->setQuestion($QUESTION);
+                    $manager->persist($question);
+                    $manager->flush();
+                    $this->setReference('question_' . $ACTION, $question);
+
+                }
+            }
+        }
+
+        foreach (self::QUESTIONS_ANSWERS as $ACTION => $VARIANT) {
+            foreach ($VARIANT as $NUMBER => $ANSWER) {
+                if ($NUMBER != 0) {
+
+                    $answer = new Answer();
+                    $answer->setAnswer($ANSWER);
+                    $answer->setQuestionId($this->getReference('question_' . $ACTION));
+                    if ($NUMBER == 1) {
+                        $answer->setIsCorrect(true);
+                    } else {
+                        $answer->setIsCorrect(false);
+                    }
+                    $manager->persist($answer);
+                    $manager->flush();
+
+                }
+            }
         }
     }
 
