@@ -14,8 +14,9 @@ class GameCapitulateListener extends GameAbstractListener
     public function fire(Game $game, User $winnerUser, User $loserUser) {
 
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 6]);
-        $user = $game->getFirstUser();
         $this->messageDriver->addMessage($winnerUser, $phrase->getPhrase());
+        $listener = new GameEndListener($this->doctrine, $this->messageDriver);
+        $listener->fire($game, $loserUser);
 
     }
 
