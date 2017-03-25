@@ -16,7 +16,7 @@ class MessageDriver
         'User::PROVIDER_TG' => null,
     ];
 
-    private $messages = [];
+    private $messages = null;
 
     public function __construct(VkService $vkService, EntityManager $em)
     {
@@ -42,6 +42,8 @@ class MessageDriver
             $message = implode($messages, "\n");
 
             $this->senderServices[$user->getProviderId()]->sendMessage($user, $message);
+
+            $this->messages = null;
         }
     }
 }

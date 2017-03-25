@@ -84,7 +84,7 @@ class VkService
 
         $parameters = [
             'user_ids' => $user_import_id,
-            'fields' => 'photo_200',
+            'fields' => 'photo_200_orig',
         ];
 
         $client = new Client();
@@ -95,10 +95,18 @@ class VkService
             return false;
         }
 
-        return [
-            'first_name' => $response['response'][0]['first_name'],
-            'last_name' => $response['response'][0]['last_name'],
-            'avatar' => $response['response'][0]['photo_200'],
+        $info = [
+            'first_name' => '',
+            'last_name' => '',
+            'avatar' => '',
         ];
+
+        if (isset($response['response'][0]['first_name']) && isset($response['response'][0]['last_name']) && isset($response['response'][0]['photo_200_orig'])) {
+            $info['first_name'] = $response['response'][0]['first_name'];
+            $info['last_name'] = $response['response'][0]['last_name'];
+            $info['avatar'] = $response['response'][0]['photo_200_orig'];
+        }
+
+        return $info;
     }
 }
