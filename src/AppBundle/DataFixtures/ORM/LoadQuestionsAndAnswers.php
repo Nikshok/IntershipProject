@@ -63,15 +63,11 @@ class LoadQuestionsAndAnswers extends AbstractFixture implements OrderedFixtureI
                     $this->setReference('question_' . $ACTION, $question);
 
                 }
-            }
-        }
 
-        foreach (self::QUESTIONS_ANSWERS as $ACTION => $VARIANT) {
-            foreach ($VARIANT as $NUMBER => $ANSWER) {
                 if ($NUMBER != 0) {
 
                     $answer = new Answer();
-                    $answer->setAnswer($ANSWER);
+                    $answer->setAnswer($QUESTION);
                     $answer->setQuestionId($this->getReference('question_' . $ACTION));
                     if ($NUMBER == 1) {
                         $answer->setIsCorrect(true);

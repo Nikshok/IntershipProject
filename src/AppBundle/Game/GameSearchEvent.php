@@ -30,7 +30,7 @@ class GameSearchEvent extends GameAbstractEvent
         } else {
 
             $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
-                ->where('g.firstUser != :user AND g.secondUser = :user AND (g.status = 2 OR g.status = 3)')
+                ->where('(g.firstUser = :user OR g.secondUser = :user) AND (g.status = 2 OR g.status = 3)')
                 ->setParameter('user', $user)
                 ->getQuery();
 
