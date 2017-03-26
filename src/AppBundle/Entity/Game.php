@@ -46,8 +46,19 @@ class Game
      * @var int
      *
      * @ORM\Column(name="status", type="integer", nullable=false)
+     *
+     * 1 - game in search
+     * 2 - game not ready
+     * 3 - game in action
+     * 4 - game over
+     *
      */
     private $status;
+
+    const GAME_IN_SEARCH = 1;
+    const GAME_NOT_READY = 2;
+    const GAME_IN_ACTION = 3;
+    const GAME_OVER = 4;
 
     /**
      * Get id

@@ -42,8 +42,8 @@ class MessageDriver
             $message = implode($messages, "\n");
 
             $this->senderServices[$user->getProviderId()]->sendMessage($user, $message);
-
-            $this->messages = null;
         }
+
+        $this->messages = null;
     }
 }

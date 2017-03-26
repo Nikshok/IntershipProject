@@ -4,6 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
+use AppBundle\Game\GameResultEvent;
+use AppBundle\Game\GetResultEvent;
+use AppBundle\Game\SelecetQuestionsEvent;
+use AppBundle\Game\SendQuestionEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,15 +85,30 @@ class VkController extends Controller
 
     /**
      * @Route("/test")
+     * @param Request $request
+     * @return Response
      */
-    public function testAction() {
+    public function testAction(Request $request)
+    {
+//        $userRepository = $this->getDoctrine()->getRepository(User::class);
+//        $user = $userRepository->find(24);
+//
+        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
+        $game = $gameRepository->find(10);
 
-        $response = array();
 
-        if (!isset($response['response'][0]['first_name'])
-        ) {
-            echo 7777;
+        $sender = $this->get('message_driver_service');
+
+        $event = new GameResultEvent($this->getDoctrine(), $sender);
+
+        if (!$event->fire($game)) {
+
+            return new Response('OK');
         }
+//
+//        $sender->execute();
+//
+//        return new Response('OK');
     }
 
 
