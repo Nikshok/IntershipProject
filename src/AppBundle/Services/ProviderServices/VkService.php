@@ -19,6 +19,22 @@ class VkService
     {
         $client = new Client();
 
+        $url = 'https://api.vk.com/method/messages.send';
+
+        $parameters = [
+            'user_id' => $user->getImportId(),
+            'message' => $message,
+            'access_token' => $this->access_token,
+        ];
+
+        $client->request('POST', $url, ['query' => $parameters]);
+
+    }
+
+    public function sendPicture(User $user)
+    {
+        $client = new Client();
+
         $url = 'https://api.vk.com/method/photos.getMessagesUploadServer';
 
         $parameters = [
@@ -69,7 +85,6 @@ class VkService
 
         $parameters = [
             'user_id' => $user->getImportId(),
-            'message' => $message,
             'attachment' => 'photo' . $response['response'][0]['owner_id'] . '_' . $response['response'][0]['pid'],
             'access_token' => $this->access_token,
         ];

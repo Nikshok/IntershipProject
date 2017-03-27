@@ -12,12 +12,10 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findRandomQuestions(int $limit)
     {
-        
-
         $query = $this->_em->createQuery(
             'SELECT q
             FROM AppBundle:Question q
-            ORDER BY RANDOM()
+            ORDER BY RAND()
             LIMIT :limit'
         )->setParameter('limit', $limit)->getResult();
 

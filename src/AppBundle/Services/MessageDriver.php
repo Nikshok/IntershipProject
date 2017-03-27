@@ -36,6 +36,10 @@ class MessageDriver
 
     public function execute()
     {
+        if (!isset($this->messages)) {
+            return false;
+        }
+
         foreach ($this->messages as $userId => $messages) {
             $user = $this->em->getRepository(User::class)->findOneBy(['id' => $userId]);
 

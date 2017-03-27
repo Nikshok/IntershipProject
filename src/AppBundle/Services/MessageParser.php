@@ -21,7 +21,7 @@ class MessageParser
         $param = null;
 
         foreach (self::ACTIONS as $eventName => $action) {
-            if (stristr($message, $action)) {
+            if (mb_stristr($message, $action)) {
                 if ($action == self::ACTIONS['GameAnswerEvent']) {
                     foreach (self::ANSWERS as $answer) {
                         if (stristr($message, $answer)){
@@ -34,6 +34,6 @@ class MessageParser
             }
         }
 
-        return ['GameErrorEvent', $param];
+        return ['event_name' => 'GameErrorEvent', $param];
     }
 }

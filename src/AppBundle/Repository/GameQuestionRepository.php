@@ -27,9 +27,63 @@ class GameQuestionRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('gq.answerChecker IS NULL')
             ->andWhere('gq.status IS NULL')
             ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id')
             ->getQuery()
             ->setMaxResults(1)
             ->getOneOrNullResult();
+
+        return $query;
+    }
+
+    /**
+     * @param User $user
+     * @param Game $game
+     * @return mixed
+     */
+    public function findCurrentQuestion(User $user, Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->where('gq.user = :user')
+            ->andWhere('gq.game = :game')
+            ->andWhere('gq.answerChecker IS NULL')
+            ->andWhere('gq.status = 1')
+            ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        return $query;
+    }
+
+    public function CountAnswers(User $user, Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->select('count(gq.id)')
+            ->where('gq.user = :user')
+            ->andWhere('gq.game = :game')
+            ->andWhere('gq.answerChecker IS NOT NULL')
+            ->andWhere('gq.status = 1')
+            ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $query;
+    }
+
+    public function CountRightAnswers(User $user, Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->select('count(gq.id)')
+            ->where('gq.user = :user')
+            ->andWhere('gq.game = :game')
+            ->andWhere('gq.answerChecker = 1')
+            ->andWhere('gq.status = 1')
+            ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id')
+            ->getQuery()
+            ->getSingleScalarResult();
 
         return $query;
     }

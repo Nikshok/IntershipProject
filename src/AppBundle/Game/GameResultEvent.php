@@ -12,54 +12,20 @@ class GameResultEvent extends GameAbstractEvent
     {
         $repository = $this->doctrine->getRepository(GameQuestion::class);
 
-        $firstUserCounter = $repository->createQueryBuilder('gq')
-            ->select('count(gq.id)')
-            ->where('gq.user = :user')
-            ->andWhere('gq.game = :game')
-            ->andWhere('gq.answerChecker IS NOT NULL')
-            ->andWhere('gq.status = 1')
-            ->setParameters(['user' => $game->getFirstUser(), 'game' => $game])
-            ->getQuery()
-            ->getSingleScalarResult();
+        $firstUserCounter = $repository->CountAnswers($game->getFirstUser(), $game);
 
         if ($firstUserCounter != 4) {
             return false;
         }
 
-        $secondUserCounter = $repository->createQueryBuilder('gq')
-            ->select('count(gq.id)')
-            ->where('gq.user = :user')
-            ->andWhere('gq.game = :game')
-            ->andWhere('gq.answerChecker IS NOT NULL')
-            ->andWhere('gq.status = 1')
-            ->setParameters(['user' => $game->getSecondUser(), 'game' => $game])
-            ->getQuery()
-            ->getSingleScalarResult();
+        $secondUserCounter = $repository->CountAnswers($game->getSecondUser(), $game);
 
         if ($secondUserCounter != 4) {
             return false;
         }
 
-        $firstUserAnswers = $repository->createQueryBuilder('gq')
-            ->select('count(gq.id)')
-            ->where('gq.user = :user')
-            ->andWhere('gq.game = :game')
-            ->andWhere('gq.answerChecker = 1')
-            ->andWhere('gq.status = 1')
-            ->setParameters(['user' => $game->getFirstUser(), 'game' => $game])
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $secondUserAnswers = $repository->createQueryBuilder('gq')
-            ->select('count(gq.id)')
-            ->where('gq.user = :user')
-            ->andWhere('gq.game = :game')
-            ->andWhere('gq.answerChecker = 1')
-            ->andWhere('gq.status = 1')
-            ->setParameters(['user' => $game->getSecondUser(), 'game' => $game])
-            ->getQuery()
-            ->getSingleScalarResult();
-
+        $firstUserAnswers = $repository->CountRightAnswers($game->getFirstUser(), $game);
+        $secondUserAnswers = $repository->CountRightAnswers($game->getSecondUser(), $game);
 
     }
 }
