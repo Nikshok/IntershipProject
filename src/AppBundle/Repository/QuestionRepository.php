@@ -2,6 +2,10 @@
 
 namespace AppBundle\Repository;
 
+
+use AppBundle\Entity\Question;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 /**
  * QuestionRepository
  *
@@ -12,13 +16,14 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findRandomQuestions(int $limit)
     {
-        $query = $this->_em->createQuery(
-            'SELECT q
-            FROM AppBundle:Question q
-            ORDER BY RAND()
-            LIMIT :limit'
-        )->setParameter('limit', $limit)->getResult();
+        $rsm = new ResultSetMapping;
+        $rsm->addEntityResult(Question::class, 'q');
+        $rsm->addFieldResult('q', 'id', 'id');
+        $rsm->addFieldResult('q', 'question', 'question');
 
-        return $query;
+        $query = $this->_em->createNativeQuery('SELECT * FROM intership_project_db.question ORDER BY RAND() LIMIT ?', $rsm);
+        $query->setParameter(1, $limit);
+
+        return $query->getResult();
     }
 }

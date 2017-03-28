@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
+
 /**
  * GameRepository
  *
@@ -10,4 +12,18 @@ namespace AppBundle\Repository;
  */
 class GameRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findActiveGameByUser(User $user)
+    {
+        $query = $this->createQueryBuilder('g')
+            ->where('g.firstUser = :user')
+            ->orWhere('g.secondUser = :user')
+            ->andWhere('g.status = 3')
+            ->setParameter('user', $user)
+            ->orderBy('g.id')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        return $query;
+    }
 }

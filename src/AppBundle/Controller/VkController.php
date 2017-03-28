@@ -4,15 +4,15 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
+use AppBundle\Game\GameAnswerEvent;
 use AppBundle\Game\GameResultEvent;
 use AppBundle\Game\GetResultEvent;
-use AppBundle\Game\SelecetQuestionsEvent;
+use AppBundle\Game\SelectQuestionsEvent;
 use AppBundle\Game\SendQuestionEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 
 /**
@@ -90,25 +90,44 @@ class VkController extends Controller
      */
     public function testAction(Request $request)
     {
-//        $userRepository = $this->getDoctrine()->getRepository(User::class);
-//        $user = $userRepository->find(24);
-//
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->find(27);
+
         $gameRepository = $this->getDoctrine()->getRepository(Game::class);
         $game = $gameRepository->find(10);
 
+        $sender = $this->get('message_driver_service');
+
+        $event = new SelectQuestionsEvent($this->getDoctrine(), $sender);
+        $event->fire($game);
+
+        $sender->execute();
+
+        return new Response('OK');
+    }
+
+    /**
+     * @Route("/test2")
+     * @param Request $request
+     * @return Response
+     */
+    public function test2Action(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->find(27);
+
+        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
+        $game = $gameRepository->find(10);
 
         $sender = $this->get('message_driver_service');
 
-        $event = new GameResultEvent($this->getDoctrine(), $sender);
+        $event = new GameAnswerEvent($this->getDoctrine(), $sender);
 
-        if (!$event->fire($game)) {
+        $event->fire($user, 2);
 
-            return new Response('OK');
-        }
-//
-//        $sender->execute();
-//
-//        return new Response('OK');
+        $sender->execute();
+
+        return new Response('OK');
     }
 
 

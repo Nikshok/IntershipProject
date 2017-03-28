@@ -88,4 +88,32 @@ class GameQuestionRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
+    public function findFirstQuestion(User $user, Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->where('gq.user = :user')
+            ->andWhere('gq.game = :game')
+            ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id', 'ASC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        return $query;
+    }
+
+    public function findLastQuestion(User $user, Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->where('gq.user = :user')
+            ->andWhere('gq.game = :game')
+            ->setParameters(['user' => $user, 'game' => $game])
+            ->orderBy('gq.id', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        return $query;
+    }
+
 }

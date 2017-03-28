@@ -8,8 +8,14 @@ use AppBundle\Entity\User;
 
 class GameAnswerEvent extends GameAbstractEvent
 {
-    public function fire(User $user, Game $game, int $param)
+    public function fire(User $user, int $param)
     {
+        $game = $this->doctrine->getRepository(Game::class)->findActiveGameByUser($user);
+
+        if ($game == null) {
+            return false;
+        }
+
         if ($game->getStatus() != Game::GAME_IN_ACTION) {
             return false;
         }
