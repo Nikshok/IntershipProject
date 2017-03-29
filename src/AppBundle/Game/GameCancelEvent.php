@@ -11,7 +11,7 @@ class GameCancelEvent extends GameAbstractEvent
     public function fire(User $user, $value = null)
     {
             $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
-                ->where('(g.firstUser = :user OR g.secondUser = :user) AND (g.status = 1 OR g.status = 2)')
+                ->where('(g.firstUser = :user OR g.secondUser = :user) AND (g.status IN (1,2))')
                 ->setParameter('user', $user)
                 ->getQuery();
 
