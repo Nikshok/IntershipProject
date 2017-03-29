@@ -13,19 +13,18 @@ class GameStartEvent extends GameAbstractEvent
 
     public function fire(User $user, $value = null)
     {
-        $game = $this->doctrine->getRepository(Game::class)->findOneBy([
-            'firstUser' => $user->getId(),
-            'status' => 2
-        ]);
+            $game = $this->doctrine->getRepository(Game::class)->findOneBy([
+                'firstUser' => $user->getId(),
+                'status' => 2
+            ]);
 
-        if(isset($game)) {
-            $em = $this->doctrine->getManager();
-            $game->setStatus(3);
-            $em->flush();
-            $listener = new GameStartListener($this->doctrine, $this->messageDriver);
-            $listener->fire($game);
+            if (isset($game)) {
+                $em = $this->doctrine->getManager();
+                $game->setStatus(3);
+                $em->flush();
+                $listener = new GameStartListener($this->doctrine, $this->messageDriver);
+                $listener->fire($game);
 
+            }
         }
-
-    }
 }
