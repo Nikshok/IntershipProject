@@ -12,12 +12,11 @@ class SendQuestionEvent extends GameAbstractEvent
 {
     public function fire(User $user, Game $game)
     {
-        if ($game->getStatus() != Game::GAME_IN_ACTION) {
+        $event = new GameResultEvent($this->doctrine, $this->messageDriver);
+
+        if ($event->fire($game) != false) {
             return false;
         }
-
-        $event = new GameResultEvent($this->doctrine, $this->messageDriver);
-        $event->fire($game);
 
         $question = $this->doctrine->getRepository(GameQuestion::class)->findNextQuestionForSending($user, $game);
 
@@ -25,7 +24,7 @@ class SendQuestionEvent extends GameAbstractEvent
             return false;
         }
 
-        $answers = $this->doctrine->getRepository(Answer::class)->findBy(['questionId' => $question->getQuestion()]);
+        $answers = $question->getQuestion()->getAnswers();
 
         $shuffleAnswers = [];
 

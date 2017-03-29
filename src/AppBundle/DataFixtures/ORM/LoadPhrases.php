@@ -19,6 +19,9 @@ class LoadPhrases implements FixtureInterface
         '8' => 'Вы проиграли.',
         '9' => 'Ничья.',
         '10' => 'Игра отменена.',
+        '11' => 'Ваш противник ещё не ответил на все вопросы, ожидайте результатов.',
+        '12' => 'Вы ответили правильно на [firstRightAnswerCounter] вопросов за [firstTime] секунд. 
+        Ваш противник ответил на [secondRightAnswerCounter] вопросов за [secondTime] секунд.',
     ];
 
     public function load(ObjectManager $manager)

@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 class GameEndListener extends GameAbstractListener
 {
 
-    public function fire(Game $game, User $loserUser) {
+    public function fire(Game $game, User $loserUser){
 
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 7]);
         $user = $game->getWinner();

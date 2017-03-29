@@ -32,10 +32,6 @@ class SelectQuestionsEvent extends GameAbstractEvent
 
             $em->persist($gameQuestion);
 
-        }
-
-        foreach ($questions as $question) {
-
             $gameQuestion = new GameQuestion();
 
             $gameQuestion->setGame($game);

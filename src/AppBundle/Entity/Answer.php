@@ -21,26 +21,27 @@ class Answer
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
      * @ORM\Column(name="answer", type="string", length=255, nullable=false)
      */
     private $answer;
+
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="Question")
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
     private $questionId;
+
     /**
      * @var int
      *
      * @ORM\Column(name="is_correct", type="boolean", nullable=true)
      */
     private $isCorrect;
-
-
 
 
     /**

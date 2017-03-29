@@ -12,11 +12,7 @@ class GameAnswerEvent extends GameAbstractEvent
     {
         $game = $this->doctrine->getRepository(Game::class)->findActiveGameByUser($user);
 
-        if ($game == null) {
-            return false;
-        }
-
-        if ($game->getStatus() != Game::GAME_IN_ACTION) {
+        if (!$game) {
             return false;
         }
 

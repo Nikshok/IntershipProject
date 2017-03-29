@@ -5,6 +5,9 @@ namespace AppBundle\Game;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameQuestion;
+use AppBundle\Game\Listeners\GameRemoveListener;
+use AppBundle\Game\Listeners\GameResultListener;
+use AppBundle\Game\Listeners\WaitForResultListener;
 
 class GameResultEvent extends GameAbstractEvent
 {
@@ -16,15 +19,27 @@ class GameResultEvent extends GameAbstractEvent
 
         $repository = $this->doctrine->getRepository(GameQuestion::class);
 
+        $allQuestionsCounter = $repository->CountAllQuestions($game);
+
         $firstUserCounter = $repository->CountAnswers($game->getFirstUser(), $game);
-
-        if ($firstUserCounter != 4) {
-            return false;
-        }
-
         $secondUserCounter = $repository->CountAnswers($game->getSecondUser(), $game);
 
-        if ($secondUserCounter != 4) {
+        if ($firstUserCounter != $allQuestionsCounter && $secondUserCounter != $allQuestionsCounter) {
+
+            return false;
+
+        } elseif ($firstUserCounter != $allQuestionsCounter) {
+
+            $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
+            $event->fire($game->getSecondUser());
+
+            return false;
+
+        } elseif ($secondUserCounter != $allQuestionsCounter) {
+
+            $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
+            $event->fire($game->getFirstUser());
+
             return false;
         }
 
@@ -40,8 +55,12 @@ class GameResultEvent extends GameAbstractEvent
         $firstTime = $firstDateEnd->getTimestamp() - $firstDateBegin->getTimestamp();
         $secondTime = $secondDateEnd->getTimestamp() - $secondDateBegin->getTimestamp();
 
-        $firstResult = $firstUserAnswers * $firstTime;
-        $secondResult = $secondUserAnswers * $secondTime;
+        $firstResult = $firstUserAnswers * 1 / $firstTime;
+        $secondResult = $secondUserAnswers * 1 / $secondTime;
+
+        $event = new GameResultListener($this->doctrine, $this->messageDriver);
+        $event->fire($game->getFirstUser(), $firstUserAnswers, $firstTime);
+        $event->fire($game->getFirstUser(), $secondUserAnswers, $secondTime);
 
         $event = new GameEndEvent($this->doctrine, $this->messageDriver);
 

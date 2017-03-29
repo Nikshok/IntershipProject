@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,15 @@ class Question
      * @ORM\Column(name="question", type="string", length=255, nullable=false)
      */
     private $question;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="questionId")
+     */
+    private $answers;
+
+    public function __construct() {
+        $this->answers = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -60,5 +70,39 @@ class Question
     public function getQuestion()
     {
         return $this->question;
+    }
+
+    /**
+     * Add answer
+     *
+     * @param \AppBundle\Entity\Answer $answer
+     *
+     * @return Question
+     */
+    public function addAnswer(\AppBundle\Entity\Answer $answer)
+    {
+        $this->answers[] = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Remove answer
+     *
+     * @param \AppBundle\Entity\Answer $answer
+     */
+    public function removeAnswer(\AppBundle\Entity\Answer $answer)
+    {
+        $this->answers->removeElement($answer);
+    }
+
+    /**
+     * Get answers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
     }
 }

@@ -56,6 +56,20 @@ class GameQuestionRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
+
+    public function CountAllQuestions(Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->select('count(gq.id)')
+            ->Where('gq.game = :game')
+            ->setParameters(['game' => $game])
+            ->orderBy('gq.id')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $query / 2;
+    }
+
     public function CountAnswers(User $user, Game $game)
     {
         $query = $this->createQueryBuilder('gq')

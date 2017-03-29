@@ -2,11 +2,8 @@
 
 namespace AppBundle\Game\Listeners;
 
-use AppBundle\Entity\Game;
 use AppBundle\Entity\Phrase;
 use AppBundle\Entity\User;
-use AppBundle\Services;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class GameRemoveListener extends GameAbstractListener
 {
