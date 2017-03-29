@@ -23,8 +23,8 @@ class GameTopEvent extends GameAbstractEvent
         $rating  = $query->getArrayResult();
 
         foreach($rating as $rate) {
-            $user = $this->doctrine->getRepository(User::class)->findOneBy(["id" => $rate["winner"]]);
-            $message .= $user->getFirstName()." ".$user->getLastName()." ".$rate["rating"]."<br>";
+            $user1 = $this->doctrine->getRepository(User::class)->findOneBy(["id" => $rate["winner"]]);
+            $message .= $user1->getFirstName()." ".$user1->getLastName()." vk.com/id".$user1->getImportId()." ".$rate["rating"]."<br>";
         }
 
         $listener = new GameTopListener($this->doctrine, $this->messageDriver);
