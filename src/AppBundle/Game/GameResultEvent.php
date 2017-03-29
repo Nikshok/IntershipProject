@@ -66,7 +66,7 @@ class GameResultEvent extends GameAbstractEvent
 
         if ($firstResult == $secondResult) {
 
-            //ничья
+            $event->fire($game);
 
         } elseif ($firstResult < $secondResult) {
 
