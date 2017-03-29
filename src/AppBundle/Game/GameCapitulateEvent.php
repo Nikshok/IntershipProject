@@ -22,22 +22,19 @@ class GameCapitulateEvent extends GameAbstractEvent
 
         if (isset($findGame)) {
             $em = $this->doctrine->getManager();
-            $findGame->setStatus(4);
             $checkUser = $findGame->getFirstUser();
+
             if ($checkUser == $user) {
 
                 $winnerUser = $findGame->getSecondUser();
-                $loserUser = $findGame->getFirstUser();
 
             } else {
 
                 $winnerUser = $findGame->getFirstUser();
-                $loserUser = $findGame->getSecondUser();
             }
-            $findGame->setWinner($winnerUser);
-            $em->flush();
-            $listener = new GameCapitulateListener($this->doctrine, $this->messageDriver);
-            $listener->fire($findGame, $winnerUser, $loserUser);
+
+            $listener = new GameEndEvent($this->doctrine, $this->messageDriver);
+            $listener->fire($findGame, $winnerUser);
         }
     }
 }
