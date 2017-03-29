@@ -19,8 +19,5 @@ class GameStartListener extends GameAbstractListener
         $this->messageDriver->addMessage($user1, $phrase->getPhrase());
         $this->messageDriver->addMessage($user2, $phrase->getPhrase());
 
-        /*$event = new SelectQuestionsEvent($this->doctrine, $this->messageDriver);
-        $event->fire($game);*/
-
     }
 }

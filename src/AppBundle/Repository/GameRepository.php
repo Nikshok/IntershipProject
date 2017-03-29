@@ -26,4 +26,19 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
 
         return $query;
     }
+
+    public function findRatingUsers($id) {
+
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT  IDENTITY(g.winner) as winner, count(g.id) as rating
+            FROM AppBundle\Entity\Game g
+            WHERE g.status = 4
+            GROUP BY g.winner
+            ORDER BY rating DESC'
+        )->setMaxResults($id);
+
+        $rating  = $query->getArrayResult();
+
+        return $rating;
+    }
 }

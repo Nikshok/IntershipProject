@@ -6,28 +6,20 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameTopListener;
+use AppBundle\Repository\GameRepository;
 
 class GameTopEvent extends GameAbstractEvent
 {
     public function fire(User $user, $value = null)
     {
-        $message = "";
-        $query = $this->doctrine->getManager()->createQuery(
-            'SELECT  IDENTITY(g.winner) as winner, count(g.id) as rating
-            FROM AppBundle\Entity\Game g
-    WHERE g.status = 4
-    GROUP BY g.winner
-    ORDER BY rating DESC'
-        )->setMaxResults(5);
+        $users = [];
+        $rating = $this->doctrine->getRepository(Game::class)->findRatingUsers(5);
 
-        $rating  = $query->getArrayResult();
-
-        foreach($rating as $rate) {
-            $user1 = $this->doctrine->getRepository(User::class)->findOneBy(["id" => $rate["winner"]]);
-            $message .= $user1->getFirstName()." ".$user1->getLastName()." vk.com/id".$user1->getImportId()." ".$rate["rating"]."<br>";
+        foreach($rating as $num => $rate) {
+            array_push($users, $this->doctrine->getRepository(User::class)->findOneBy(["id" => $rate["winner"]]));
         }
 
         $listener = new GameTopListener($this->doctrine, $this->messageDriver);
-        $listener->fire($user, $message);
+        $listener->fire($user, $users);
     }
 }
