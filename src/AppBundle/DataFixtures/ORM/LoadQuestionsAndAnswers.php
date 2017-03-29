@@ -62,9 +62,7 @@ class LoadQuestionsAndAnswers extends AbstractFixture implements OrderedFixtureI
                     $manager->flush();
                     $this->setReference('question_' . $ACTION, $question);
 
-                }
-
-                if ($NUMBER != 0) {
+                } else {
 
                     $answer = new Answer();
                     $answer->setAnswer($QUESTION);
