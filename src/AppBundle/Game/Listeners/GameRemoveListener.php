@@ -2,6 +2,7 @@
 
 namespace AppBundle\Game\Listeners;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\Phrase;
 use AppBundle\Entity\User;
 
