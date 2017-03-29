@@ -12,7 +12,7 @@ class GameSearchEvent extends GameAbstractEvent
     public function fire(User $user, $value = null)
     {
         $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
-            ->where('(g.firstUser = :user OR g.secondUser = :user) AND (g.status = 1 OR g.status = 2 OR g.status = 3)')
+            ->where('(g.firstUser = :user OR g.secondUser = :user) AND (g.status IN (1,2,3))')
             ->setParameter('user', $user)
             ->getQuery();
 
@@ -21,12 +21,12 @@ class GameSearchEvent extends GameAbstractEvent
         if (!isset($findGame)) {
 
             $query = $this->doctrine->getRepository(Game::class)->createQueryBuilder('g')
-                ->where('g.firstUser = :firstUser AND g.secondUser IS NULL')
+                ->where('g.firstUser != :firstUser AND g.secondUser IS NULL')
                 ->setParameter('firstUser', $user)
                 ->getQuery();
-            $findStartedGame = $query->setMaxResults(1)->getOneOrNullResult();
+            $findGame = $query->setMaxResults(1)->getOneOrNullResult();
 
-            if (isset($findStartedGame)) {
+            if (isset($findGame)) {
 
                 $em = $this->doctrine->getManager();
                 $findGame->setSecondUser($user);

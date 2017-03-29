@@ -9,7 +9,7 @@ class WaitForResultListener extends GameAbstractListener
 {
     public function fire(User $user)
     {
-        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 11])->getPhrase();
+        $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 12])->getPhrase();
         $this->messageDriver->addMessage($user, $phrase);
     }
 }
