@@ -14,6 +14,10 @@ class SelectQuestionsEvent extends GameAbstractEvent
             return false;
         }
 
+        if ($game->getStatus() != 3) {
+            return false;
+        }
+
         $questions = $this->doctrine->getRepository(Question::class)->findRandomQuestions(10);
 
         if (!$questions) {

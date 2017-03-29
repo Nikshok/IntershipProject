@@ -59,8 +59,8 @@ class GameResultEvent extends GameAbstractEvent
         $secondResult = $secondUserAnswers * 1 / $secondTime;
 
         $event = new GameResultListener($this->doctrine, $this->messageDriver);
-        $event->fire($game->getFirstUser(), $firstUserAnswers, $firstTime);
-        $event->fire($game->getFirstUser(), $secondUserAnswers, $secondTime);
+        $event->fire($game->getFirstUser(), $firstUserAnswers, $firstTime, $secondUserAnswers, $secondTime);
+        $event->fire($game->getSecondUser(), $secondUserAnswers, $secondTime, $firstUserAnswers, $firstTime);
 
         $event = new GameEndEvent($this->doctrine, $this->messageDriver);
 

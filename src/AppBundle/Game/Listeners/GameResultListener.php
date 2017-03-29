@@ -7,14 +7,14 @@ use AppBundle\Entity\User;
 
 class GameResultListener extends GameAbstractListener
 {
-    public function fire(User $user, int $counter, int $time)
+    public function fire(User $user, int $firstCounter, int $firstTime, int $secondCounter, int $secondTime)
     {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 12])->getPhrase();
 
-        $phrase = str_replace("[rightAnswerCounter]", $counter, $phrase);
-        $phrase = str_replace("[secondAnswerCounter]", $counter, $phrase);
-        $phrase = str_replace("[firstTime]", $time, $phrase);
-        $phrase = str_replace("[secondTime]", $time, $phrase);
+        $phrase = str_replace("[firstRightAnswerCounter]", $firstCounter, $phrase);
+        $phrase = str_replace("[secondRightAnswerCounter]", $secondCounter, $phrase);
+        $phrase = str_replace("[firstTime]", $firstTime, $phrase);
+        $phrase = str_replace("[secondTime]", $secondTime, $phrase);
 
         $this->messageDriver->addMessage($user, $phrase);
     }
