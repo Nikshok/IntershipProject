@@ -29,14 +29,14 @@ class GameResultEvent extends GameAbstractEvent
 
             return false;
 
-        } elseif ($firstUserCounter != $allFirstUserQuestionsCounter && $user == $game->getSecondUser()) {
+        } elseif ($firstUserCounter != $allFirstUserQuestionsCounter) {
 
             $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
             $event->fire($game->getSecondUser());
 
             return false;
 
-        } elseif ($secondUserCounter != $allSecondUserQuestionsCounter && $user == $game->getFirstUser()) {
+        } elseif ($secondUserCounter != $allSecondUserQuestionsCounter) {
 
             $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
             $event->fire($game->getFirstUser());

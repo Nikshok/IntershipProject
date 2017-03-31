@@ -3,6 +3,7 @@
 namespace AppBundle\Game;
 
 
+use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameErrorListener;
 
 class GameErrorEvent extends GameAbstractEvent
