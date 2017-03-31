@@ -14,7 +14,7 @@ class SendQuestionEvent extends GameAbstractEvent
     {
         $event = new GameResultEvent($this->doctrine, $this->messageDriver);
 
-        if ($event->fire($game) != false) {
+        if ($event->fire($game, $user) != false) {
             return false;
         }
 

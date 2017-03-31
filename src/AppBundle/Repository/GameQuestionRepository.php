@@ -56,19 +56,34 @@ class GameQuestionRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
-
-    public function CountAllQuestions(Game $game)
+    public function CountFirstUserAllQuestions(Game $game)
     {
         $query = $this->createQueryBuilder('gq')
             ->select('count(gq.id)')
             ->Where('gq.game = :game')
-            ->setParameters(['game' => $game])
+            ->andWhere('gq.game = :game')
+            ->setParameters(['game' => $game, 'user' => $game->getFirstUser()])
             ->orderBy('gq.id')
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $query / 2;
+        return $query;
     }
+
+    public function CountSecondUserAllQuestions(Game $game)
+    {
+        $query = $this->createQueryBuilder('gq')
+            ->select('count(gq.id)')
+            ->Where('gq.game = :game')
+            ->andWhere('gq.game = :game')
+            ->setParameters(['game' => $game, 'user' => $game->getSecondUser()])
+            ->orderBy('gq.id')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $query;
+    }
+
 
     public function CountAnswers(User $user, Game $game)
     {
