@@ -12,6 +12,7 @@ class MessageParser
         'GameStartEvent' => 'готов',
         'GameCapitulateEvent' => 'сдаться',
         'GameAnswerEvent' => 'ответ',
+        'GameTopEvent' => 'топ'
     ];
 
     const ANSWERS = ['1', '2', '3', '4'];
