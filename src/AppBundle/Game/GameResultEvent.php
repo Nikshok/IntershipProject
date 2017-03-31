@@ -20,7 +20,7 @@ class GameResultEvent extends GameAbstractEvent
         $repository = $this->doctrine->getRepository(GameQuestion::class);
 
         $allFirstUserQuestionsCounter = $repository->CountFirstUserAllQuestions($game);
-        $allSecondUserQuestionsCounter = $repository->CountFirstUserAllQuestions($game);
+        $allSecondUserQuestionsCounter = $repository->CountSecondUserAllQuestions($game);
 
         $firstUserCounter = $repository->CountAnswers($game->getFirstUser(), $game);
         $secondUserCounter = $repository->CountAnswers($game->getSecondUser(), $game);
