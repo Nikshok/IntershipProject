@@ -12,7 +12,7 @@ class GameTopListener extends GameAbstractListener
 
         foreach ($users as $key => $value) {
 
-                $message .= ($key+1) . "&#8419; " . $value[0]->getFullName() . " " .  $value[1];
+                $message .= ($key+1) . "&#8419; " . $value[0]->getFullName() . " " .  $value[1] . "<br>";
 
         }
 
