@@ -10,9 +10,9 @@ class GameTopListener extends GameAbstractListener
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 11]);
         $message = $phrase->getPhrase()."<br>";
 
-        foreach ($users as $value) {
+        foreach ($users as $key => $value) {
 
-                $message .= $value[0]->getFullName() . " " . $value[1];
+                $message .= ($key+1) . "&#8419; " . $value[0]->getFullName() . " " .  $value[1];
 
         }
 
