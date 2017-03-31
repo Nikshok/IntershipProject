@@ -5,13 +5,13 @@ namespace AppBundle\Game;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameQuestion;
-use AppBundle\Game\Listeners\GameRemoveListener;
+use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameResultListener;
 use AppBundle\Game\Listeners\WaitForResultListener;
 
 class GameResultEvent extends GameAbstractEvent
 {
-    public function fire(Game $game)
+    public function fire(Game $game, User $user = null)
     {
         if ($game->getStatus() != Game::GAME_IN_ACTION) {
             return false;
@@ -19,23 +19,24 @@ class GameResultEvent extends GameAbstractEvent
 
         $repository = $this->doctrine->getRepository(GameQuestion::class);
 
-        $allQuestionsCounter = $repository->CountAllQuestions($game);
+        $allFirstUserQuestionsCounter = $repository->CountFirstUserAllQuestions($game);
+        $allSecondUserQuestionsCounter = $repository->CountFirstUserAllQuestions($game);
 
         $firstUserCounter = $repository->CountAnswers($game->getFirstUser(), $game);
         $secondUserCounter = $repository->CountAnswers($game->getSecondUser(), $game);
 
-        if ($firstUserCounter != $allQuestionsCounter && $secondUserCounter != $allQuestionsCounter) {
+        if ($firstUserCounter != $allFirstUserQuestionsCounter && $secondUserCounter != $allSecondUserQuestionsCounter) {
 
             return false;
 
-        } elseif ($firstUserCounter != $allQuestionsCounter) {
+        } elseif ($firstUserCounter != $allFirstUserQuestionsCounter && $user == $game->getSecondUser()) {
 
             $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
             $event->fire($game->getSecondUser());
 
             return false;
 
-        } elseif ($secondUserCounter != $allQuestionsCounter) {
+        } elseif ($secondUserCounter != $allSecondUserQuestionsCounter && $user == $game->getFirstUser()) {
 
             $event = new WaitForResultListener($this->doctrine, $this->messageDriver);
             $event->fire($game->getFirstUser());
@@ -55,8 +56,8 @@ class GameResultEvent extends GameAbstractEvent
         $firstTime = $firstDateEnd->getTimestamp() - $firstDateBegin->getTimestamp();
         $secondTime = $secondDateEnd->getTimestamp() - $secondDateBegin->getTimestamp();
 
-        $firstResult = $firstUserAnswers * 1 / $firstTime;
-        $secondResult = $secondUserAnswers * 1 / $secondTime;
+        $firstResult = $firstUserAnswers - $firstTime / 10;
+        $secondResult = $secondUserAnswers - $secondTime / 10;
 
         $event = new GameResultListener($this->doctrine, $this->messageDriver);
         $event->fire($game->getFirstUser(), $firstUserAnswers, $firstTime, $secondUserAnswers, $secondTime);
@@ -68,11 +69,11 @@ class GameResultEvent extends GameAbstractEvent
 
             $event->fire($game);
 
-        } elseif ($firstResult < $secondResult) {
+        } elseif ($firstResult > $secondResult) {
 
             $event->fire($game, $game->getFirstUser());
 
-        } elseif ($firstResult > $secondResult) {
+        } elseif ($firstResult < $secondResult) {
 
             $event->fire($game, $game->getSecondUser());
 

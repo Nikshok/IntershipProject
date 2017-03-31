@@ -23,6 +23,7 @@ class LoadPhrases implements FixtureInterface
         '12' => 'Ваш противник ещё не ответил на все вопросы, ожидайте результатов.',
         '13' => 'Вы ответили правильно на [firstRightAnswerCounter] вопросов за [firstTime] секунд. 
         Ваш противник ответил на [secondRightAnswerCounter] вопросов за [secondTime] секунд.',
+        '14' => 'Команда не определена. Доступные команды: поиск, отмена, готов, сдаться, [номер ответа].'
     ];
 
     public function load(ObjectManager $manager)
