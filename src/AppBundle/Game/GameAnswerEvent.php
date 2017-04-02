@@ -2,6 +2,7 @@
 
 namespace AppBundle\Game;
 
+use AppBundle\Entity\Answer;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameQuestion;
 use AppBundle\Entity\User;
@@ -10,6 +11,10 @@ class GameAnswerEvent extends GameAbstractEvent
 {
     public function fire(User $user, int $param)
     {
+        if (!$user) {
+            return false;
+        }
+
         $game = $this->doctrine->getRepository(Game::class)->findActiveGameByUser($user);
 
         if (!$game) {
@@ -23,9 +28,9 @@ class GameAnswerEvent extends GameAbstractEvent
         }
 
         if ($question->getAnswerParam() == $param) {
-            $question->setAnswerChecker(1);
+            $question->setAnswerChecker(Answer::CORRECT_ANSWER);
         } else {
-            $question->setAnswerChecker(2);
+            $question->setAnswerChecker(Answer::INCORRECT_ANSWER);
         }
 
         $question->setDateEnd(new \DateTime());

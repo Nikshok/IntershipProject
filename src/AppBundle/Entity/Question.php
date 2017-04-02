@@ -34,6 +34,8 @@ class Question
      */
     private $answers;
 
+    const QUESTION_SENDED = 1;
+
     public function __construct() {
         $this->answers = new ArrayCollection();
     }

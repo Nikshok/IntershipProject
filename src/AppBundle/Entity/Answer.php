@@ -43,6 +43,9 @@ class Answer
      */
     private $isCorrect;
 
+    const CORRECT_ANSWER = 1;
+    const INCORRECT_ANSWER = 2;
+
 
     /**
      * Get id

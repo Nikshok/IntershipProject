@@ -2,8 +2,6 @@
 
 namespace AppBundle\Services;
 
-use Symfony\Component\HttpFoundation\Request;
-
 class MessageParser
 {
     const ACTIONS = [
@@ -21,17 +19,20 @@ class MessageParser
     {
         $param = null;
 
+        if (mb_strlen(trim($message)) == 1) {
+            foreach (self::ANSWERS as $answer) {
+                if (mb_stristr($message, $answer)){
+                    $param = $answer;
+                    return ['event_name' => 'GameAnswerEvent', $param];
+                }
+            }
+        }
+
         foreach (self::ACTIONS as $eventName => $action) {
             if (mb_stristr($message, $action)) {
-                if ($action == self::ACTIONS['GameAnswerEvent']) {
-                    foreach (self::ANSWERS as $answer) {
-                        if (stristr($message, $answer)){
-                            $param = $answer;
-                        }
-                    }
-                }
 
                 return ['event_name' => $eventName, 'param' => $param];
+
             }
         }
 

@@ -69,7 +69,7 @@ class VkController extends Controller
 
         $parser = $this->get('message_parser_service');
 
-        $eventArr = $parser->parseMessage($request_user['body']);    //return ['event_name', 'param']
+        $eventArr = $parser->parseMessage($request_user['body']);
 
         $sender = $this->get('message_driver_service');
 
@@ -82,53 +82,5 @@ class VkController extends Controller
 
         return new Response('OK');
     }
-
-    /**
-     * @Route("/test")
-     * @param Request $request
-     * @return Response
-     */
-    public function testAction(Request $request)
-    {
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->find(27);
-
-        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
-        $game = $gameRepository->find(10);
-
-        $sender = $this->get('message_driver_service');
-
-        $event = new SelectQuestionsEvent($this->getDoctrine(), $sender);
-        $event->fire($game);
-
-        $sender->execute();
-
-        return new Response('OK');
-    }
-
-    /**
-     * @Route("/test2")
-     * @param Request $request
-     * @return Response
-     */
-    public function test2Action(Request $request)
-    {
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->find(27);
-
-        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
-        $game = $gameRepository->find(10);
-
-        $sender = $this->get('message_driver_service');
-
-        $event = new GameAnswerEvent($this->getDoctrine(), $sender);
-
-        $event->fire($user, 2);
-
-        $sender->execute();
-
-        return new Response('OK');
-    }
-
 
 }

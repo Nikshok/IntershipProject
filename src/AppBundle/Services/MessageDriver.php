@@ -5,7 +5,6 @@ namespace AppBundle\Services;
 use AppBundle\Entity\User;
 use AppBundle\Services\ProviderServices\VkService;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
 
 class MessageDriver
 {
@@ -13,7 +12,6 @@ class MessageDriver
 
     private $senderServices = [
         User::PROVIDER_VK => null,
-        'User::PROVIDER_TG' => null,
     ];
 
     private $messages = [];
@@ -28,10 +26,6 @@ class MessageDriver
     public function addMessage(User $user, $message)
     {
         $this->messages[$user->getId()][] = $message;
-    }
-
-    public function addImage(User $user, $imagePath) {
-
     }
 
     public function execute()
