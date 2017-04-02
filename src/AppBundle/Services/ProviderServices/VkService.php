@@ -26,7 +26,7 @@ class VkService
             'access_token' => $this->access_token,
         ];
 
-        $client->request('POST', $url, ['query' => $parameters]);
+        $client->request('POST', $url, ['form_params' => $parameters]);
 
     }
 
@@ -40,7 +40,7 @@ class VkService
             'access_token' => $this->access_token,
         ];
 
-        $response = $client->request('POST', $url, ['query' => $parameters]);
+        $response = $client->request('POST', $url, ['form_params' => $parameters]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
             return false;
@@ -74,7 +74,7 @@ class VkService
             'access_token' => $this->access_token,
         ];
 
-        $response = $client->request('POST', $url, ['query' => $parameters]);
+        $response = $client->request('POST', $url, ['form_params' => $parameters]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
             return false;
@@ -88,7 +88,7 @@ class VkService
             'access_token' => $this->access_token,
         ];
 
-        $client->request('POST', $url, ['query' => $parameters]);
+        $client->request('POST', $url, ['form_params' => $parameters]);
 
     }
 
@@ -103,7 +103,7 @@ class VkService
 
         $client = new Client();
 
-        $response = $client->request('POST', $url, ['query' => $parameters]);
+        $response = $client->request('POST', $url, ['form_params' => $parameters]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
             return false;
