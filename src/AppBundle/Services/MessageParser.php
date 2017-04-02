@@ -9,7 +9,6 @@ class MessageParser
         'GameCancelEvent' => 'отмена',
         'GameStartEvent' => 'готов',
         'GameCapitulateEvent' => 'сдаться',
-        'GameAnswerEvent' => 'ответ',
         'GameTopEvent' => 'топ'
     ];
 
