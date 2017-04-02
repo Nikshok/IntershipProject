@@ -23,19 +23,17 @@ class MessageParser
             foreach (self::ANSWERS as $answer) {
                 if (mb_stristr($message, $answer)){
                     $param = $answer;
-                    return ['event_name' => 'GameAnswerEvent', $param];
+                    return ['event_name' => 'GameAnswerEvent', 'param' =>  $param];
                 }
             }
         }
 
         foreach (self::ACTIONS as $eventName => $action) {
             if (mb_stristr($message, $action)) {
-
                 return ['event_name' => $eventName, 'param' => $param];
-
             }
         }
 
-        return ['event_name' => 'GameErrorEvent', $param];
+        return ['event_name' => 'GameErrorEvent', 'param' =>  $param];
     }
 }
