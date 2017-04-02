@@ -14,7 +14,7 @@ class GameErrorEvent extends GameAbstractEvent
             return false;
         }
 
-        $event = new GameErrorListener($this->doctrine, $this->messageDriver);
-        $event->fire($user);
+        $listener = new GameErrorListener($this->doctrine, $this->messageDriver);
+        $listener->fire($user);
     }
 }
