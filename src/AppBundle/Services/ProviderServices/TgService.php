@@ -17,7 +17,9 @@ class TgService
 
     public function sendMessage(User $user, $message)
     {
-        $client = new Client();
+        $client = new Client([
+            'headers' => [ 'Content-Type' => 'application/json' ]
+        ]);
 
         $url = 'https://api.telegram.org/bot'.$this->access_token.'/sendMessage';
 
@@ -26,7 +28,7 @@ class TgService
             'text' => $message,
         ];
 
-        $client->request('POST', $url, ['query' => $parameters]);
+        $client->post($url, [ 'body' => json_encode($parameters)]);
 
     }
 
@@ -38,9 +40,11 @@ class TgService
             'chat_id' => $user_import_id,
         ];
 
-        $client = new Client();
+        $client = new Client([
+            'headers' => [ 'Content-Type' => 'application/json' ]
+        ]);
 
-        $response = $client->request('POST', $url, ['query' => $parameters]);
+        $response = $client->post($url, [ 'body' => json_encode($parameters)]);
 
         if (!$response = json_decode($response->getBody()->getContents(), true)) {
             return false;
