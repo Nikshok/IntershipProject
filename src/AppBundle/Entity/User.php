@@ -58,6 +58,8 @@ class User
 
     const PROVIDER_VK = 1;
 
+    const PROVIDER_TG = 2;
+
     /**
      * Get id
      *
@@ -189,6 +191,15 @@ class User
     }
 
     public function getFullName(){
-        return $this->firstName." ".$this->lastName." vk.com/id".$this->getImportId();
+        if ($this->getProviderId() == 1) {
+
+            return $this->firstName . " " . $this->lastName . " vk.com/id" . $this->getImportId();
+
+        }
+        elseif ($this->getProviderId() == 2) {
+
+            return $this->firstName . " " . $this->lastName . " telegram.me/" . $this->getImportId();
+
+        }
     }
 }

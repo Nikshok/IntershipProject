@@ -41,7 +41,7 @@ class TestController extends Controller
         $userRepository = $this->getDoctrine()->getRepository(User::class);
 
         //select fake user 1
-        $user1 = $userRepository->findOneById(1);
+        $user1 = $userRepository->findOneById(3);
 
         //select fake user 2
         $user2 = $userRepository->findOneById(2);
@@ -113,6 +113,10 @@ class TestController extends Controller
         $event = new \AppBundle\Game\GameSearchEvent($this->getDoctrine(), $sender);
         $event->fire($user2);
 
+        $sender->execute();
+
+        return new Response('__');
+
         //первый соглашается
         $event = new \AppBundle\Game\GameStartEvent($this->getDoctrine(), $sender);
         $event->fire($user1);
@@ -145,9 +149,7 @@ class TestController extends Controller
         $event = new \AppBundle\Game\GameCapitulateEvent($this->getDoctrine(), $sender);
         $event->fire($user2);
 
-        $sender->execute();
 
-        return new Response('__');
 
 
     }
