@@ -13,10 +13,7 @@ class MessageDriver
 
     private $senderServices = [
         User::PROVIDER_VK => null,
-<<<<<<< HEAD
         User::PROVIDER_TG => null,
-=======
->>>>>>> b993a387ec4a975702e23ad8ae257e08389bc2bd
     ];
 
     private $messages = [];
