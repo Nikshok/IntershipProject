@@ -22,21 +22,32 @@ class TgController extends Controller
      */
     public function indexAction(Request $request)
     {
+        /*$json_string = '{"update_id":370249058,
+        "message":{"message_id":68,"from":{"id":356777695,"first_name":"Konstantin","last_name":"Plotkin","username":"kudrik"},
+        "chat":{"id":356777695,"first_name":"Konstantin","last_name":"Plotkin","username":"kudrik","type":"private"},
+        "date":1491317977,"text":"поиск"}}';
+
+
+        $request = json_decode($json_string, true);
+        $request_user = $request["message"]["chat"];
+
+        var_dump($request_user['id']);*/
+        
         if (!$request = json_decode($request->getContent(), true)) {
             return new Response('OK');
         }
 
-        if (!isset($request['object'])) {
+        if (!isset($request['message'])) {
             return new Response('OK');
         }
 
-        $request_user = $request['object'];
+        $request_user = $request["message"]["chat"];
 
-        if (!isset($request_user['id']) || !isset($request_user['body'])) {
+        if (!isset($request_user['id']) || !isset($request_user['username'])) {
             return new Response('OK');
         }
 
-        if ($request_user['id'] == null || $request_user['body'] == null) {
+        if ($request_user['id'] == null || $request_user['username'] == null) {
             return new Response('OK');
         }
 
@@ -44,26 +55,18 @@ class TgController extends Controller
         $user = $userRepository->findOneByImportIdAndProviderId($request_user['id'], User::PROVIDER_TG);
 
         if (!($user)) {
-
             $user = new User();
-
-            $tgService = $this->get('tg_service');
-            $userInfo = $tgService->getUserInfo($request_user['user_id']);
-
-            $user->setFirstName($userInfo['first_name']);
-            $user->setLastName($userInfo['last_name']);
-            $user->setAvatar($userInfo['avatar']);
+            $user->setFirstName($request_user['first_name']);
+            $user->setLastName($request_user['last_name']);
             $user->setImportId($request_user['id']);
             $user->setProviderId(User::PROVIDER_TG);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
         }
 
         $parser = $this->get('message_parser_service');
-
-        $eventArr = $parser->parseMessage($request_user['body']);    //return ['event_name', 'param']
+        $eventArr = $parser->parseMessage($request['message']['text']);
 
         $sender = $this->get('message_driver_service');
 
