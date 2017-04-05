@@ -25,7 +25,7 @@ class TgController extends Controller
         /*$json_string = '{"update_id":370249058,
         "message":{"message_id":68,"from":{"id":356777695,"first_name":"Konstantin","last_name":"Plotkin","username":"kudrik"},
         "chat":{"id":356777695,"first_name":"Konstantin","last_name":"Plotkin","username":"kudrik","type":"private"},
-        "date":1491317977,"text":"поиск"}}';
+        "date":1491317977,"text":"топ"}}';
 
 
         $request = json_decode($json_string, true);
@@ -64,6 +64,7 @@ class TgController extends Controller
             $user->setLastName($request_user['last_name']);
             $user->setImportId($request_user['id']);
             $user->setProviderId(User::PROVIDER_TG);
+            $user->setUsername($request_user['username']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

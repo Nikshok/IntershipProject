@@ -8,11 +8,11 @@ class GameTopListener extends GameAbstractListener
 {
     public function fire(User $user, array $users) {
         $phrase = $this->doctrine->getRepository(Phrase::class)->findOneBy(['categoryId' => 11]);
-        $message = $phrase->getPhrase()."<br>";
+        $message = $phrase->getPhrase()."\n";
 
         foreach ($users as $key => $value) {
 
-                $message .= ($key+1) . "&#8419; " . $value[0]->getFullName() . " " .  $value[1] . "<br>";
+                $message .= ($key+1) . " " . $value[0]->getFullName() . " " .  $value[1] . "\n";
 
         }
 
