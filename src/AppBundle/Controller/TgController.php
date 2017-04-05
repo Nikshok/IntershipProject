@@ -32,12 +32,16 @@ class TgController extends Controller
         $request_user = $request["message"]["chat"];
 
         var_dump($request_user['id']);*/
-        
+
         if (!$request = json_decode($request->getContent(), true)) {
             return new Response('OK');
         }
 
         if (!isset($request['message'])) {
+            return new Response('OK');
+        }
+
+        if (!isset($request["message"]["chat"]) || $request["message"]["chat"] == null) {
             return new Response('OK');
         }
 
