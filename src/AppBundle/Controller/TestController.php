@@ -61,6 +61,10 @@ class TestController extends Controller
         $event = new \AppBundle\Game\GameCancelEvent($this->getDoctrine(), $sender);
         $event->fire($user1);
 
+        //топ
+        $event = new \AppBundle\Game\GameTopEvent($this->getDoctrine(), $sender);
+        $event->fire($user1);
+
         //первый ищет игру
         $event = new \AppBundle\Game\GameSearchEvent($this->getDoctrine(), $sender);
         $event->fire($user1);
@@ -92,6 +96,7 @@ class TestController extends Controller
         //второй отменяет игру
         $event = new \AppBundle\Game\GameCancelEvent($this->getDoctrine(), $sender);
         $event->fire($user2);
+
         //первый ищет игру
         $event = new \AppBundle\Game\GameSearchEvent($this->getDoctrine(), $sender);
         $event->fire($user1);
@@ -143,6 +148,8 @@ class TestController extends Controller
         //второй сдается
         $event = new \AppBundle\Game\GameCapitulateEvent($this->getDoctrine(), $sender);
         $event->fire($user2);
+
+
 
         $sender->execute();
 
@@ -224,106 +231,39 @@ class TestController extends Controller
 
     }
 
-    /**
-     * @Route("/game3")
-     */
-    public function game3Action(Request $request)
-    {
-        if (!$request = json_decode($request->getContent(), true)) {
-            return new Response('OK');
-        }
-
-        if (!isset($request['object'])) {
-            return new Response('OK');
-        }
-
-        $request_user = $request['object'];
-
-        if (!isset($request_user['user_id']) || !isset($request_user['body'])) {
-            return new Response('OK');
-        }
-
-        if ($request_user['user_id'] == null || $request_user['body'] == null) {
-            return new Response('OK');
-        }
-
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->findOneByImportIdAndProviderId($request_user['user_id'], User::PROVIDER_VK);
-
-        if (!($user)) {
-
-            $user = new User();
-
-            $vkService = $this->get('vk_service');
-            $userInfo = $vkService->getUserInfo($request_user['user_id']);
-
-            $user->setFirstName($userInfo['first_name']);
-            $user->setLastName($userInfo['last_name']);
-            $user->setAvatar($userInfo['avatar']);
-            $user->setImportId($request_user['user_id']);
-            $user->setProviderId(User::PROVIDER_VK);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-        }
-
-        $parser = $this->get('message_parser_service');
-
-        $eventArr = $parser->parseMessage($request_user['body']);    //return ['event_name', 'param']
-
-        $sender = $this->get('message_driver_service');
-
-        $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
-        print_r($eventArr['event_name']);
-        return new Response('__');
-
-    }
 
     /**
-     * @Route("/game4")
+     * @param Request $request
+     * @return mixed|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/tg")
      */
-    public function game4Action(Request $request)
+    public function tgAction(Request $request)
     {
-        $str = 'ответ 1';
-
-        print_r(mb_strlen(trim($str)));
-
-        if (!$request = json_decode($request->getContent(), true)) {
-            return new Response('OK');
-        }
-
-        if (!isset($request['object'])) {
-            return new Response('OK');
-        }
-
-        $request_user = $request['object'];
-
-        if (!isset($request_user['user_id']) || !isset($request_user['body'])) {
-            return new Response('OK');
-        }
-
-        if ($request_user['user_id'] == null || $request_user['body'] == null) {
-            return new Response('OK');
-        }
-
         $userRepository = $this->getDoctrine()->getRepository(User::class);
 
         //select fake user 1
-        $user1 = $userRepository->findOneById(1);
-        $parser = $this->get('message_parser_service');
+        $user_vk = $userRepository->findOneByImportIdAndProviderId('1600741', User::PROVIDER_VK);
 
-        $eventArr = $parser->parseMessage($request_user['body']);    //return ['event_name', 'param']
+        //select fake user 2
+
+        $user_tg = $userRepository->findOneByImportIdAndProviderId('71268011', User::PROVIDER_TG);
 
         $sender = $this->get('message_driver_service');
 
-        $eventClassName = '\AppBundle\Game\\' . $eventArr['event_name'];
-        $event = new $eventClassName($this->getDoctrine(), $sender);
-        $event->fire($user1, $eventArr['param']);
-//        print_r($eventArr['event_name']);
+        $sender->addMessage($user_vk, 'msg1');
+        $sender->addMessage($user_vk, 'msg2');
+
+        $sender->addMessage($user_tg, 'msg tg 1');
+        $sender->addMessage($user_tg, 'msg tg 2');
+
+        $sender->addMessage($user_vk, 'msg3');
+
+        $sender->addMessage($user_tg, 'очень большой текст g 3 msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3msg tg 3 3msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 33msg tg 3 33msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg tg 333msg t');
 
         $sender->execute();
-        return new Response('__');
 
+
+        return new Response('ok');
     }
 }

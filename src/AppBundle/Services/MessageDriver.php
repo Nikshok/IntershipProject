@@ -3,6 +3,7 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\User;
+use AppBundle\Services\ProviderServices\TgService;
 use AppBundle\Services\ProviderServices\VkService;
 use Doctrine\ORM\EntityManager;
 
@@ -12,14 +13,15 @@ class MessageDriver
 
     private $senderServices = [
         User::PROVIDER_VK => null,
+        User::PROVIDER_TG => null,
     ];
 
     private $messages = [];
 
-    public function __construct(VkService $vkService, EntityManager $em)
+    public function __construct(VkService $vkService, TgService $tgService, EntityManager $em)
     {
         $this->em = $em;
-
+        $this->senderServices[User::PROVIDER_TG] = $tgService;
         $this->senderServices[User::PROVIDER_VK] = $vkService;
     }
 

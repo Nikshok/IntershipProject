@@ -20,4 +20,5 @@ parameters:
 
     peer_id: -142630176
     access_token_vk: 772d64bc1dc8ecda9f71b4fabffdac0a479775d90b1f104af6b3c6c9355ffd00db30df51062b7a65b1e09
+    access_token_tg: 334642638:AAGZlpaac8YHnivPqKVPdvaPfE4G5BMjsl0
     v: 5.62

@@ -56,12 +56,36 @@ class User
      */
     private $avatar;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255, nullable=true)
+     */
+    private $username;
+
     const PROVIDER_VK = 1;
+
+    const PROVIDER_TG = 2;
+
+
+
+    public function getFullName(){
+        if ($this->getProviderId() == 1) {
+
+            return $this->firstName . " " . $this->lastName . " vk.com/id" . $this->getImportId();
+
+        }
+        elseif ($this->getProviderId() == 2) {
+
+            return $this->firstName . " " . $this->lastName . " telegram.me/" . $this->getUsername();
+
+        }
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -157,7 +181,7 @@ class User
     /**
      * Get providerId
      *
-     * @return int
+     * @return integer
      */
     public function getProviderId()
     {
@@ -188,7 +212,27 @@ class User
         return $this->avatar;
     }
 
-    public function getFullName(){
-        return $this->firstName." ".$this->lastName." vk.com/id".$this->getImportId();
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 }
