@@ -5,6 +5,7 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Answer;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameQuestion;
+use AppBundle\Entity\Question;
 use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\SendQuestionListener;
 
@@ -35,13 +36,13 @@ class SendQuestionEvent extends GameAbstractEvent
         shuffle($shuffleAnswers);
 
         foreach ($shuffleAnswers as $key => $answer){
-            if($answer->getIsCorrect() == 1) {
+            if($answer->getIsCorrect() == Answer::CORRECT_ANSWER) {
                 $question->setAnswerParam($key + 1);
             }
         }
 
         $question->setDateBegin(new \DateTime());
-        $question->setStatus(1);
+        $question->setStatus(Question::QUESTION_SENDED);
 
         $em = $this->doctrine->getManager();
         $em->persist($question);

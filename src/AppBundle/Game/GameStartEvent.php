@@ -13,14 +13,15 @@ class GameStartEvent extends GameAbstractEvent
     {
         $game = $this->doctrine->getRepository(Game::class)->findOneBy([
             'firstUser' => $user->getId(),
-            'status' => 2
+            'status' => Game::GAME_NOT_READY
         ]);
 
         if (isset($game)) {
 
             $em = $this->doctrine->getManager();
-            $game->setStatus(3);
+            $game->setStatus(Game::GAME_IN_ACTION);
             $em->flush();
+
             $listener = new GameStartListener($this->doctrine, $this->messageDriver);
             $listener->fire($game);
 

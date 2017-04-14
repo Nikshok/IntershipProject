@@ -40,7 +40,7 @@ class GameSearchEvent extends GameAbstractEvent
                 $em = $this->doctrine->getManager();
                 $findGame = new Game();
                 $findGame->setFirstUser($user);
-                $findGame->setStatus(1);
+                $findGame->setStatus(Game::GAME_IN_SEARCH);
                 $em->persist($findGame);
                 $em->flush();
                 $listener = new GameSearchListener($this->doctrine, $this->messageDriver);

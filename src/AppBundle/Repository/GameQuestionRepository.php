@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Game;
-use AppBundle\Entity\GameQuestion;
 use AppBundle\Entity\User;
 
 /**

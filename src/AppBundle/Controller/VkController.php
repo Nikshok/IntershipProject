@@ -2,14 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
-use AppBundle\Game\GameAnswerEvent;
-use AppBundle\Game\GameResultEvent;
 use AppBundle\Game\GetResultEvent;
-use AppBundle\Game\SelectQuestionsEvent;
-use AppBundle\Game\SendQuestionEvent;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -18,7 +18,6 @@ class GameCapitulateEvent extends GameAbstractEvent
             $findGame = $query->setMaxResults(1)->getOneOrNullResult();
 
             if (isset($findGame)) {
-                $em = $this->doctrine->getManager();
                 $checkUser = $findGame->getFirstUser();
 
                 if ($checkUser == $user) {

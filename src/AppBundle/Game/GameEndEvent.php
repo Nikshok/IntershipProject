@@ -6,8 +6,6 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameDeadHeatListener;
 use AppBundle\Game\Listeners\GameEndListener;
-use AppBundle\Services;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class GameEndEvent extends GameAbstractEvent
 {
@@ -16,7 +14,7 @@ class GameEndEvent extends GameAbstractEvent
     {
 
         $em = $this->doctrine->getManager();
-        $game->setStatus(4);
+        $game->setStatus(Game::GAME_OVER);
 
         if (is_null($user)) {
 

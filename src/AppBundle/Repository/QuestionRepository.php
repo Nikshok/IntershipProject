@@ -5,7 +5,6 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Question;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * QuestionRepository

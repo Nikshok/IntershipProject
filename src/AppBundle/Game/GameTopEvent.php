@@ -6,7 +6,6 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Game\Listeners\GameTopListener;
-use AppBundle\Repository\GameRepository;
 
 class GameTopEvent extends GameAbstractEvent
 {

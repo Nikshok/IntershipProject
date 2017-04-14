@@ -14,7 +14,7 @@ class SelectQuestionsEvent extends GameAbstractEvent
             return false;
         }
 
-        if ($game->getStatus() != 3) {
+        if ($game->getStatus() != Game::GAME_IN_ACTION) {
             return false;
         }
 

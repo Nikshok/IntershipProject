@@ -4,7 +4,6 @@ namespace AppBundle\Services\ProviderServices;
 
 use AppBundle\Entity\User;
 use GuzzleHttp\Client;
-use Symfony\Component\HttpFoundation\Request;
 
 class TgService
 {
