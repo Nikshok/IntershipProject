@@ -3,8 +3,8 @@
     <property name="CSS_DIR" value="src/AppBundle/Resources/css/"/>
     <property name="MIN_DIR" value="src/AppBundle/Resources/min/"/>
 
-    <taskdef name="stubjsmin" classname="libs.stubJsMinTask" />
-    <taskdef name="stubcssmin" classname="libs.stubCssMinTask" />
+    <taskdef name="stubJsMin" classname="libs.stubJsMinTask" />
+    <taskdef name="stubCssMin" classname="libs.stubCssMinTask" />
 
     <target name="update" depends="chmod">
         <exec command="git pull" passthru="true"/>
@@ -28,18 +28,18 @@
         <fileset id="srcjs" dir="${JS_DIR}">
             <include name="*.js"/>
         </fileset>
-        <stubjsmin targetDir="${MIN_DIR}/js">
+        <stubJsMin targetDir="${MIN_DIR}/js">
             <fileset refid="srcjs"/>
-        </stubjsmin>
+        </stubJsMin>
     </target>
 
     <target name="minify_css">
         <fileset id="srccss" dir="${CSS_DIR}">
             <include name="*.css"/>
         </fileset>
-        <stubcssmin targetDir="${MIN_DIR}/css">
+        <stubCssMin targetDir="${MIN_DIR}/css">
             <fileset refid="srccss"/>
-        </stubcssmin>
+        </stubCssMin>
     </target>
 
     <target name="minify" depends="minify_css, minify_js">
