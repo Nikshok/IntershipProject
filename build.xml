@@ -1,0 +1,49 @@
+<project name="IntershipProject" basedir="." default="update">
+    <property name="JS_DIR" value="src/AppBundle/Resources/js/"/>
+    <property name="CSS_DIR" value="src/AppBundle/Resources/css/"/>
+    <property name="MIN_DIR" value="src/AppBundle/Resources/min/"/>
+
+    <taskdef name="stubjsmin" classname="libs.stubJsMinTask" />
+    <taskdef name="stubcssmin" classname="libs.stubCssMinTask" />
+
+    <target name="update" depends="chmod">
+        <exec command="git pull" passthru="true"/>
+        <exec command="composer install" passthru="true"/>
+    </target>
+
+    <target name="chmod">
+        <chmod mode="755" file="."/>
+    </target>
+
+    <target name="update_db">
+        <echo msg="Creating db..."/>
+        <exec command="php bin/console doctrine:database:create --if-not-exists" passthru="true"/>
+        <echo msg="Updating tables..."/>
+        <exec command="php bin/console doctrine:schema:update -f" passthru="true"/>
+        <echo msg="Loading fixtures..."/>
+        <exec command="php bin/console doctrine:fixture:load" passthru="true"/>
+    </target>
+
+    <target name="minify_js">
+        <fileset id="srcjs" dir="${JS_DIR}">
+            <include name="*.js"/>
+        </fileset>
+        <stubjsmin targetDir="${MIN_DIR}/js">
+            <fileset refid="srcjs"/>
+        </stubjsmin>
+    </target>
+
+    <target name="minify_css">
+        <fileset id="srccss" dir="${CSS_DIR}">
+            <include name="*.css"/>
+        </fileset>
+        <stubcssmin targetDir="${MIN_DIR}/css">
+            <fileset refid="srccss"/>
+        </stubcssmin>
+    </target>
+
+    <target name="minify" depends="minify_css, minify_js">
+
+    </target>
+
+</project>
