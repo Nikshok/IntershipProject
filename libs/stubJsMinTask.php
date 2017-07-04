@@ -97,7 +97,7 @@ class stubJsMinTask extends Task
     public function main()
     {
         if (class_exists('JSMin', false) == false) {
-	            require_once 'JsMin/jsmin.php';
+	            require_once './vendor/linkorb/jsmin-php/src/jsmin-1.1.1.php';
 	        }
 	        
 	        foreach ($this->filesets as $fs) {

@@ -95,7 +95,7 @@ class stubCssMinTask extends Task
     public function main()
     {
         if (class_exists('cssmin', false) == false) {
-	            require_once 'CssMin/cssmin.php';
+	            require_once './vendor/natxet/CssMin/src/CssMin.php';
 	        }
 	        
 	        foreach ($this->filesets as $fs) {

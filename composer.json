@@ -36,9 +36,11 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "linkorb/jsmin-php": "^1.0",
+        "natxet/CssMin": "^3.0",
+        "phing/phing": "2.*",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
-        "phing/phing": "2.*"
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [
